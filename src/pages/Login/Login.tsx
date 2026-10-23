@@ -13,6 +13,10 @@ import {
 import { Button, Input } from '@/reusable'
 import { loginSchema, type LoginFormValues } from './loginValidation'
 
+const DEMO_USERNAME = 'admin'
+const DEMO_PASSWORD = 'admin123'
+const AUTH_TOKEN = 'asjklj30-3223kjd-4j3-23kjasd'
+
 export function Login() {
   const { isAuthenticated, login } = useAuth()
   const navigate = useNavigate()
@@ -36,11 +40,13 @@ export function Login() {
 
   function onSubmit(values: LoginFormValues) {
     clearErrors('root')
-    const result = login(values.username, values.password)
-    if (!result.ok) {
-      setError('root', { message: result.error })
+
+    if (values.username.trim() !== DEMO_USERNAME || values.password !== DEMO_PASSWORD) {
+      setError('root', { message: 'Invalid username or password.' })
       return
     }
+
+    login(AUTH_TOKEN)
     navigate('/', { replace: true })
   }
 

@@ -7,19 +7,13 @@ import {
   type ReactNode,
 } from 'react'
 
-const SESSION_KEY = 'mytel-cms-session'
+const TOKEN_KEY = 'mytel-cms-token'
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7
-const DEMO_USERNAME = 'admin'
-const DEMO_PASSWORD = 'admin123'
-
-type User = {
-  username: string
-}
 
 type AuthContextValue = {
-  user: User | null
+  token: string | null
   isAuthenticated: boolean
-  login: (username: string, password: string) => { ok: true } | { ok: false; error: string }
+  login: (token: string) => void
   logout: () => void
 }
 
@@ -39,48 +33,32 @@ function removeCookie(name: string) {
   document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`
 }
 
-function readSession(): User | null {
-  try {
-    const raw = getCookie(SESSION_KEY)
-    if (!raw) return null
-    const parsed = JSON.parse(raw) as User
-    if (!parsed?.username) return null
-    return parsed
-  } catch {
-    return null
-  }
+function readToken(): string | null {
+  const token = getCookie(TOKEN_KEY)
+  return token || null
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => readSession())
+  const [token, setToken] = useState<string | null>(() => readToken())
 
-  const login = useCallback((username: string, password: string) => {
-    const trimmed = username.trim()
-    if (!trimmed || !password) {
-      return { ok: false as const, error: 'Username and password are required.' }
-    }
-    if (trimmed !== DEMO_USERNAME || password !== DEMO_PASSWORD) {
-      return { ok: false as const, error: 'Invalid username or password.' }
-    }
-    const next: User = { username: trimmed }
-    setCookie(SESSION_KEY, JSON.stringify(next))
-    setUser(next)
-    return { ok: true as const }
+  const login = useCallback((nextToken: string) => {
+    setCookie(TOKEN_KEY, nextToken)
+    setToken(nextToken)
   }, [])
 
   const logout = useCallback(() => {
-    removeCookie(SESSION_KEY)
-    setUser(null)
+    removeCookie(TOKEN_KEY)
+    setToken(null)
   }, [])
 
   const value = useMemo<AuthContextValue>(
     () => ({
-      user,
-      isAuthenticated: Boolean(user),
+      token,
+      isAuthenticated: Boolean(token),
       login,
       logout,
     }),
-    [user, login, logout],
+    [token, login, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

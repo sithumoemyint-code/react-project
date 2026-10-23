@@ -4,7 +4,7 @@ import { useAuth } from '../auth/AuthContext'
 import { Sidebar } from './Sidebar'
 
 export function DashboardLayout() {
-  const { user, logout } = useAuth()
+  const { logout } = useAuth()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -37,7 +37,6 @@ export function DashboardLayout() {
             Menu
           </button>
           <div className="flex-1" />
-          <span className="text-[0.9rem] text-ink-muted">{user?.username}</span>
           <button
             type="button"
             className="h-[34px] rounded-md border border-border bg-surface px-3 text-sm text-ink hover:bg-surface-hover"
