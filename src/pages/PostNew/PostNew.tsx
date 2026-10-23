@@ -1,8 +1,16 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useRef, useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import './PostNew.css'
 
 const categories = ['General', 'Announcements', 'Promotions'] as const
+
+const selectChevron =
+  "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")] bg-[length:12px_12px] bg-[position:right_10px_center] bg-no-repeat"
+
+const cardClass = 'rounded-xl border border-border bg-surface shadow-soft'
+
+const fieldFocus =
+  'outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)]'
 
 export function PostNew() {
   const navigate = useNavigate()
@@ -51,10 +59,13 @@ export function PostNew() {
   }
 
   return (
-    <section className="post-new">
-      <header className="post-new__header">
-        <div className="post-new__header-main">
-          <Link to="/posts" className="post-new__back">
+    <section className="flex flex-col gap-[18px]">
+      <header>
+        <div className="flex flex-col gap-2.5">
+          <Link
+            to="/posts"
+            className="inline-flex w-fit items-center gap-1 text-[0.9rem] font-semibold text-accent hover:text-accent-hover"
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M15 6l-6 6 6 6"
@@ -66,37 +77,44 @@ export function PostNew() {
             </svg>
             Back to Posts
           </Link>
-          <div className="post-new__title-row">
-            <h1 className="post-new__title">Add New Post</h1>
-            <span className="post-new__draft-badge">{status}</span>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="m-0 text-[1.75rem] font-bold tracking-tight text-ink max-sm:text-[1.4rem]">
+              Add New Post
+            </h1>
+            <span className="inline-flex h-7 items-center rounded-full bg-blue-50 px-3 text-[0.8rem] font-bold text-accent">
+              {status}
+            </span>
           </div>
         </div>
       </header>
 
-      <form className="post-new__layout" onSubmit={handlePublish}>
-        <div className="post-new__main">
-          <article className="post-card">
+      <form
+        className="grid items-start gap-5 max-[980px]:grid-cols-1 min-[980px]:grid-cols-[minmax(0,1fr)_300px]"
+        onSubmit={handlePublish}
+      >
+        <div className="flex flex-col gap-4">
+          <article className={`${cardClass} p-4`}>
             <input
               type="text"
-              className="post-card__title-input"
+              className={`h-12 w-full rounded-md border border-border px-3.5 text-[1.05rem] font-medium text-ink ${fieldFocus}`}
               placeholder="Enter Post Title here..."
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               aria-label="Post title"
             />
 
-            <div className="post-card__api">
-              <p className="post-card__api-label">API Endpoint Details</p>
-              <div className="post-card__api-row">
+            <div className="mt-3.5 rounded-[10px] bg-blue-50 p-3.5">
+              <p className="m-0 mb-2.5 text-[0.8rem] font-bold text-slate-700">API Endpoint Details</p>
+              <div className="grid gap-2 max-[980px]:grid-cols-1 min-[980px]:grid-cols-[minmax(0,1fr)_110px_140px]">
                 <input
                   type="text"
-                  className="post-card__api-endpoint"
+                  className={`h-[38px] rounded-md border border-blue-200 bg-surface px-3 font-mono text-sm text-ink ${fieldFocus}`}
                   value={endpoint}
                   onChange={(event) => setEndpoint(event.target.value)}
                   aria-label="API endpoint"
                 />
                 <select
-                  className="post-card__api-select"
+                  className={`h-[38px] appearance-none rounded-md border border-blue-200 bg-surface px-2.5 pr-7 text-sm text-ink ${selectChevron} ${fieldFocus}`}
                   value={method}
                   onChange={(event) => setMethod(event.target.value)}
                   aria-label="HTTP method"
@@ -108,7 +126,7 @@ export function PostNew() {
                   <option value="DELETE">DELETE</option>
                 </select>
                 <select
-                  className="post-card__api-select"
+                  className={`h-[38px] appearance-none rounded-md border border-blue-200 bg-surface px-2.5 pr-7 text-sm text-ink ${selectChevron} ${fieldFocus}`}
                   value={auth}
                   onChange={(event) => setAuth(event.target.value)}
                   aria-label="Authentication"
@@ -120,15 +138,18 @@ export function PostNew() {
             </div>
           </article>
 
-          <article className="post-card">
-            <div className="post-editor__toolbar">
-              <div className="post-editor__tools">
-                <button type="button" className="post-editor__tool post-editor__tool--media">
+          <article className={`${cardClass} p-4`}>
+            <div className="-mx-4 -mt-4 mb-3 flex flex-wrap items-center justify-between gap-3 rounded-t-xl border-b border-border bg-surface-subtle px-3 py-2.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  className="h-8 rounded-md border border-orange-200 bg-orange-50 px-2.5 text-[0.825rem] font-semibold text-accent hover:bg-surface-hover"
+                >
                   Add Media
                 </button>
                 <button
                   type="button"
-                  className="post-editor__tool"
+                  className="h-8 rounded-md border border-border bg-surface px-2.5 text-[0.825rem] font-semibold text-ink hover:bg-surface-hover"
                   aria-label="Bold"
                   onClick={() => wrapSelection('**')}
                 >
@@ -136,7 +157,7 @@ export function PostNew() {
                 </button>
                 <button
                   type="button"
-                  className="post-editor__tool"
+                  className="h-8 rounded-md border border-border bg-surface px-2.5 text-[0.825rem] font-semibold text-ink hover:bg-surface-hover"
                   aria-label="Italic"
                   onClick={() => wrapSelection('*')}
                 >
@@ -144,23 +165,25 @@ export function PostNew() {
                 </button>
                 <button
                   type="button"
-                  className="post-editor__tool"
+                  className="h-8 rounded-md border border-border bg-surface px-2.5 text-[0.825rem] font-semibold text-ink hover:bg-surface-hover"
                   onClick={() => wrapSelection('- ', '')}
                 >
                   List
                 </button>
                 <button
                   type="button"
-                  className="post-editor__tool"
+                  className="h-8 rounded-md border border-border bg-surface px-2.5 text-[0.825rem] font-semibold text-ink hover:bg-surface-hover"
                   onClick={() => wrapSelection('[', '](url)')}
                 >
                   Link
                 </button>
               </div>
-              <div className="post-editor__modes" role="group" aria-label="Editor mode">
+              <div className="inline-flex items-center gap-2 text-[0.85rem] text-slate-300" role="group" aria-label="Editor mode">
                 <button
                   type="button"
-                  className={`post-editor__mode${editorMode === 'visual' ? ' post-editor__mode--active' : ''}`}
+                  className={`border-0 bg-transparent p-0 text-[0.85rem] font-medium ${
+                    editorMode === 'visual' ? 'font-bold text-ink' : 'text-ink-muted'
+                  }`}
                   onClick={() => setEditorMode('visual')}
                 >
                   Visual
@@ -168,7 +191,9 @@ export function PostNew() {
                 <span aria-hidden="true">|</span>
                 <button
                   type="button"
-                  className={`post-editor__mode${editorMode === 'text' ? ' post-editor__mode--active' : ''}`}
+                  className={`border-0 bg-transparent p-0 text-[0.85rem] font-medium ${
+                    editorMode === 'text' ? 'font-bold text-ink' : 'text-ink-muted'
+                  }`}
                   onClick={() => setEditorMode('text')}
                 >
                   Text
@@ -177,7 +202,7 @@ export function PostNew() {
             </div>
             <textarea
               ref={contentRef}
-              className="post-editor__content"
+              className={`min-h-60 w-full resize-y rounded-md border border-border p-3 font-[inherit] text-[0.925rem] leading-normal text-ink ${fieldFocus}`}
               placeholder="Start writing your English and Myanmar content..."
               value={content}
               onChange={(event) => setContent(event.target.value)}
@@ -186,10 +211,10 @@ export function PostNew() {
             />
           </article>
 
-          <article className="post-card">
-            <h2 className="post-card__heading">Short Description / Excerpt</h2>
+          <article className={`${cardClass} p-4`}>
+            <h2 className="m-0 mb-2.5 text-[0.95rem] font-bold text-ink">Short Description / Excerpt</h2>
             <textarea
-              className="post-card__excerpt"
+              className={`min-h-[100px] w-full resize-y rounded-md border border-border p-3 font-[inherit] text-[0.925rem] leading-normal text-ink ${fieldFocus}`}
               placeholder="Write a short excerpt..."
               value={excerpt}
               onChange={(event) => setExcerpt(event.target.value)}
@@ -199,38 +224,49 @@ export function PostNew() {
           </article>
         </div>
 
-        <aside className="post-new__side">
-          <article className="post-side-card">
-            <h2 className="post-side-card__title">Publish</h2>
-            <div className="post-side-card__row">
-              <button type="button" className="post-side-card__ghost" onClick={handleSaveDraft}>
+        <aside className="flex flex-col gap-4">
+          <article className={`${cardClass} p-4`}>
+            <h2 className="m-0 mb-3.5 text-base font-bold text-ink">Publish</h2>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                className="h-9 rounded-md border border-border bg-surface text-sm font-semibold text-ink hover:bg-surface-hover"
+                onClick={handleSaveDraft}
+              >
                 Save Draft
               </button>
-              <button type="button" className="post-side-card__ghost">
+              <button
+                type="button"
+                className="h-9 rounded-md border border-border bg-surface text-sm font-semibold text-ink hover:bg-surface-hover"
+              >
                 Preview
               </button>
             </div>
-            <div className="post-side-card__meta">
-              <p>
-                Status: <strong>{status}</strong>
+            <div className="my-3.5 flex flex-col gap-1.5">
+              <p className="m-0 text-sm text-ink-muted">
+                Status: <strong className="text-ink">{status}</strong>
               </p>
-              <p>
-                Visibility: <strong>{visibility}</strong>
+              <p className="m-0 text-sm text-ink-muted">
+                Visibility: <strong className="text-ink">{visibility}</strong>
               </p>
             </div>
-            <button type="submit" className="post-side-card__publish">
+            <button
+              type="submit"
+              className="h-[42px] w-full rounded-md border-0 bg-accent text-[0.9rem] font-bold text-white hover:bg-accent-hover"
+            >
               Publish Post &amp; Endpoint
             </button>
           </article>
 
-          <article className="post-side-card">
-            <h2 className="post-side-card__title">Categories</h2>
-            <ul className="post-side-card__categories">
+          <article className={`${cardClass} p-4`}>
+            <h2 className="m-0 mb-3.5 text-base font-bold text-ink">Categories</h2>
+            <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
               {categories.map((category) => (
                 <li key={category}>
-                  <label className="post-side-card__check">
+                  <label className="inline-flex cursor-pointer items-center gap-2 text-[0.9rem] text-ink">
                     <input
                       type="checkbox"
+                      className="size-[15px] accent-accent"
                       checked={selectedCategories.includes(category)}
                       onChange={() => toggleCategory(category)}
                     />
@@ -239,16 +275,19 @@ export function PostNew() {
                 </li>
               ))}
             </ul>
-            <button type="button" className="post-side-card__add-cat">
+            <button
+              type="button"
+              className="mt-3.5 border-0 bg-transparent p-0 text-left text-sm font-semibold text-accent hover:text-accent-hover"
+            >
               + Add New Category
             </button>
           </article>
 
-          <article className="post-side-card">
-            <h2 className="post-side-card__title">Featured Image</h2>
+          <article className={`${cardClass} p-4`}>
+            <h2 className="m-0 mb-3.5 text-base font-bold text-ink">Featured Image</h2>
             <button
               type="button"
-              className="post-side-card__featured"
+              className="flex min-h-[120px] w-full flex-col items-center justify-center gap-2 rounded-[10px] border-[1.5px] border-dashed border-slate-300 bg-surface-subtle text-sm font-medium text-ink-muted hover:border-accent hover:bg-blue-50 hover:text-ink"
               onClick={() => fileInputRef.current?.click()}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -272,7 +311,7 @@ export function PostNew() {
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              className="post-side-card__file"
+              className="hidden"
               onChange={(event) => {
                 const file = event.target.files?.[0]
                 setFeaturedName(file ? file.name : null)

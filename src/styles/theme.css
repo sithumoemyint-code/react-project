@@ -1,51 +1,57 @@
-:root {
-  --color-bg: #ffffff;
-  --color-bg-subtle: #f5f6f8;
-  --color-bg-hover: #eef0f3;
+@import 'tailwindcss';
+
+@theme {
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f5f6f8;
+  --color-surface-hover: #eef0f3;
   --color-border: #e2e5ea;
-  --color-text: #1a1d23;
-  --color-text-muted: #6b7280;
+  --color-ink: #1a1d23;
+  --color-ink-muted: #6b7280;
   --color-accent: #0b5fff;
   --color-accent-hover: #094fd6;
   --color-danger: #c62828;
   --color-danger-hover: #a61f1f;
-  --sidebar-width: 240px;
-  --header-height: 56px;
-  --radius: 8px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --spacing-sidebar: 240px;
+  --spacing-header: 56px;
+  --radius-md: 8px;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-}
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+  }
 
-body {
-  font-family: var(--font);
-  color: var(--color-text);
-  background: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button,
-input {
-  font-family: inherit;
-}
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
 
-button {
-  cursor: pointer;
+  button {
+    cursor: pointer;
+  }
 }

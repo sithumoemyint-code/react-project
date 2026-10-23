@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { Sidebar } from './Sidebar'
-import './DashboardLayout.css'
 
 export function DashboardLayout() {
   const { user, logout } = useAuth()
@@ -15,36 +14,40 @@ export function DashboardLayout() {
   }
 
   return (
-    <div className="dashboard">
+    <div className="flex h-full bg-surface-subtle">
       <Sidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} />
 
       {sidebarOpen ? (
         <button
           type="button"
-          className="dashboard__backdrop"
+          className="fixed inset-0 z-[15] hidden border-0 bg-[rgba(26,29,35,0.35)] max-md:block"
           aria-label="Close menu"
           onClick={() => setSidebarOpen(false)}
         />
       ) : null}
 
-      <div className="dashboard__main">
-        <header className="dashboard__header">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex h-header items-center gap-3 border-b border-border bg-surface px-5">
           <button
             type="button"
-            className="dashboard__menu-btn"
+            className="hidden h-[34px] items-center rounded-md border border-border bg-surface px-3 text-sm text-ink max-md:inline-flex"
             aria-label="Open menu"
             onClick={() => setSidebarOpen(true)}
           >
             Menu
           </button>
-          <div className="dashboard__header-spacer" />
-          <span className="dashboard__user">{user?.username}</span>
-          <button type="button" className="dashboard__logout" onClick={handleLogout}>
+          <div className="flex-1" />
+          <span className="text-[0.9rem] text-ink-muted">{user?.username}</span>
+          <button
+            type="button"
+            className="h-[34px] rounded-md border border-border bg-surface px-3 text-sm text-ink hover:bg-surface-hover"
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </header>
 
-        <main className="dashboard__content">
+        <main className="flex-1 overflow-auto p-6">
           <Outlet />
         </main>
       </div>

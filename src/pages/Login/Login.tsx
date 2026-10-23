@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
-import './Login.css'
 
 export function Login() {
   const { isAuthenticated, login } = useAuth()
@@ -26,14 +25,17 @@ export function Login() {
   }
 
   return (
-    <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <div className="login-brand">
-          <h1>Mytel for Developers</h1>
-          <p>CMS Administration</p>
+    <div className="flex min-h-full items-center justify-center bg-[linear-gradient(180deg,#f8f9fb_0%,#ffffff_55%,#f3f5f8_100%)] p-6">
+      <form
+        className="flex w-full max-w-[400px] flex-col gap-4 rounded-xl border border-border bg-surface px-7 py-8 shadow-soft"
+        onSubmit={handleSubmit}
+      >
+        <div>
+          <h1 className="m-0 text-[1.35rem] font-semibold tracking-tight">Mytel for Developers</h1>
+          <p className="mt-1.5 mb-2 text-[0.95rem] text-ink-muted">CMS Administration</p>
         </div>
 
-        <label className="login-field">
+        <label className="flex flex-col gap-1.5 text-sm text-ink">
           <span>Username</span>
           <input
             type="text"
@@ -41,10 +43,11 @@ export function Login() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter username"
+            className="h-[42px] rounded-md border border-border bg-surface px-3 text-ink outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)]"
           />
         </label>
 
-        <label className="login-field">
+        <label className="flex flex-col gap-1.5 text-sm text-ink">
           <span>Password</span>
           <input
             type="password"
@@ -52,16 +55,20 @@ export function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"
+            className="h-[42px] rounded-md border border-border bg-surface px-3 text-ink outline-none transition focus:border-accent focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)]"
           />
         </label>
 
-        {error ? <p className="login-error">{error}</p> : null}
+        {error ? <p className="m-0 text-sm text-danger">{error}</p> : null}
 
-        <button type="submit" className="login-submit">
+        <button
+          type="submit"
+          className="mt-1 h-[42px] rounded-md border-0 bg-accent font-semibold text-white transition hover:bg-accent-hover"
+        >
           Sign in
         </button>
 
-        <p className="login-hint">Demo: admin / admin123</p>
+        <p className="mt-1 mb-0 text-center text-[0.8rem] text-ink-muted">Demo: admin / admin123</p>
       </form>
     </div>
   )

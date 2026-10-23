@@ -1,5 +1,5 @@
-import { useMemo, useState, type FormEvent } from 'react'
-import './Users.css'
+import { useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
 
 type UserStatus = 'Active' | 'Inactive'
 type AvatarTone = 'orange' | 'purple' | 'yellow'
@@ -50,6 +50,18 @@ const initialUsers: CmsUser[] = [
 ]
 
 const avatarTones: AvatarTone[] = ['orange', 'purple', 'yellow']
+
+const avatarToneClass: Record<AvatarTone, string> = {
+  orange: 'bg-orange-100 text-orange-700',
+  purple: 'bg-violet-100 text-violet-700',
+  yellow: 'bg-amber-100 text-amber-700',
+}
+
+const selectChevron =
+  'appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2712%27%20height=%2712%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%3E%3Cpath%20d=%27M6%209l6%206%206-6%27%20stroke=%27%236b7280%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")] bg-[length:12px_12px] bg-[position:right_12px_center] bg-no-repeat'
+
+const modalFieldClass =
+  'w-full rounded-md border border-border bg-white text-[0.925rem] text-slate-800 outline-none focus:border-orange-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.15)]'
 
 function getInitials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean)
@@ -119,20 +131,31 @@ export function Users() {
   }
 
   return (
-    <section className="users">
-      <header className="users__header">
-        <div className="users__intro">
-          <p className="users__eyebrow">Mytel Developer CMS</p>
-          <h1 className="users__title">CMS Users</h1>
-          <p className="users__subtitle">Manage access, roles, and publishing permissions.</p>
+    <section className="flex flex-col gap-[18px]">
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex min-w-0 flex-col gap-1.5">
+          <p className="m-0 text-xs font-bold tracking-[0.08em] text-orange-500 uppercase">Mytel Developer CMS</p>
+          <h1 className="m-0 text-[1.4rem] leading-tight font-bold tracking-tight text-slate-800 min-[641px]:text-[1.75rem]">
+            CMS Users
+          </h1>
+          <p className="m-0 text-[0.95rem] leading-normal text-ink-muted">
+            Manage access, roles, and publishing permissions.
+          </p>
         </div>
-        <button type="button" className="users__add" onClick={() => setModalOpen(true)}>
+        <button
+          type="button"
+          className="h-10 shrink-0 rounded-md border-0 bg-orange-500 px-4 text-[0.9rem] font-semibold whitespace-nowrap text-white hover:bg-orange-600"
+          onClick={() => setModalOpen(true)}
+        >
           + Add User
         </button>
       </header>
 
-      <label className="users__search">
-        <span className="users__search-icon" aria-hidden="true">
+      <label className="relative flex items-center">
+        <span
+          className="pointer-events-none absolute left-3.5 grid place-items-center text-ink-muted"
+          aria-hidden="true"
+        >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
             <path d="M20 20l-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -140,6 +163,7 @@ export function Users() {
         </span>
         <input
           type="search"
+          className="h-11 w-full rounded-[10px] border border-border bg-surface py-0 pr-3.5 pl-[42px] text-[0.925rem] text-ink shadow-soft outline-none focus:border-orange-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.15)]"
           placeholder="Search users by name or email..."
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -147,59 +171,73 @@ export function Users() {
         />
       </label>
 
-      <div className="users__table-wrap">
-        <table className="users__table">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-soft">
+        <table className="w-full min-w-[720px] border-collapse">
           <thead>
             <tr>
-              <th>User</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Created</th>
-              <th className="users__th-actions">Actions</th>
+              <th className="border-b border-border bg-[#fafbfc] px-[18px] py-3.5 text-left text-[0.7rem] font-bold tracking-[0.06em] whitespace-nowrap text-slate-500 uppercase">
+                User
+              </th>
+              <th className="border-b border-border bg-[#fafbfc] px-[18px] py-3.5 text-left text-[0.7rem] font-bold tracking-[0.06em] whitespace-nowrap text-slate-500 uppercase">
+                Role
+              </th>
+              <th className="border-b border-border bg-[#fafbfc] px-[18px] py-3.5 text-left text-[0.7rem] font-bold tracking-[0.06em] whitespace-nowrap text-slate-500 uppercase">
+                Status
+              </th>
+              <th className="border-b border-border bg-[#fafbfc] px-[18px] py-3.5 text-left text-[0.7rem] font-bold tracking-[0.06em] whitespace-nowrap text-slate-500 uppercase">
+                Created
+              </th>
+              <th className="w-[72px] border-b border-border bg-[#fafbfc] px-[18px] py-3.5 text-right text-[0.7rem] font-bold tracking-[0.06em] whitespace-nowrap text-slate-500 uppercase">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={5} className="users__empty">
+                <td colSpan={5} className="px-[18px] py-9 text-center text-ink-muted">
                   No users found.
                 </td>
               </tr>
             ) : (
               filtered.map((user) => (
                 <tr key={user.id}>
-                  <td>
-                    <div className="users__identity">
+                  <td className="border-b border-border px-[18px] py-4 align-middle text-[0.9rem] text-slate-800 last:border-b-0">
+                    <div className="flex items-center gap-3">
                       <span
-                        className={`users__avatar users__avatar--${user.avatarTone}`}
+                        className={`grid size-10 shrink-0 place-items-center rounded-full text-[0.8rem] font-bold ${avatarToneClass[user.avatarTone]}`}
                         aria-hidden="true"
                       >
                         {user.initials}
                       </span>
                       <div>
-                        <p className="users__name">{user.name}</p>
-                        <p className="users__email">{user.email}</p>
+                        <p className="m-0 text-[0.95rem] leading-snug font-bold text-slate-800">{user.name}</p>
+                        <p className="mt-0.5 mb-0 text-[0.825rem] leading-snug text-ink-muted">{user.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <span className="users__role">{user.role}</span>
+                  <td className="border-b border-border px-[18px] py-4 align-middle text-[0.9rem] text-slate-800 last:border-b-0">
+                    <span className="inline-flex h-[26px] items-center rounded-full bg-orange-50 px-2.5 text-[0.775rem] font-semibold whitespace-nowrap text-orange-500">
+                      {user.role}
+                    </span>
                   </td>
-                  <td>
+                  <td className="border-b border-border px-[18px] py-4 align-middle text-[0.9rem] last:border-b-0">
                     <span
-                      className={`users__status${
-                        user.status === 'Active' ? ' users__status--active' : ' users__status--inactive'
+                      className={`text-[0.9rem] font-semibold ${
+                        user.status === 'Active' ? 'text-green-600' : 'text-ink-muted'
                       }`}
                     >
                       {user.status}
                     </span>
                   </td>
-                  <td className="users__created">{user.created}</td>
-                  <td className="users__actions">
-                    <div className="users__menu">
+                  <td className="border-b border-border px-[18px] py-4 align-middle text-[0.9rem] whitespace-nowrap text-ink-muted last:border-b-0">
+                    {user.created}
+                  </td>
+                  <td className="w-[72px] border-b border-border px-[18px] py-4 text-right align-middle last:border-b-0">
+                    <div className="relative inline-flex justify-end">
                       <button
                         type="button"
-                        className="users__menu-btn"
+                        className="grid size-8 place-items-center rounded-md border-0 bg-transparent text-ink-muted hover:bg-surface-hover hover:text-slate-800"
                         aria-label={`Actions for ${user.name}`}
                         aria-expanded={openMenuId === user.id}
                         onClick={() =>
@@ -213,17 +251,30 @@ export function Users() {
                         </svg>
                       </button>
                       {openMenuId === user.id ? (
-                        <div className="users__menu-panel" role="menu">
-                          <button type="button" role="menuitem" onClick={() => setOpenMenuId(null)}>
+                        <div
+                          className="absolute top-[calc(100%+4px)] right-0 z-5 flex min-w-40 flex-col rounded-[10px] border border-border bg-surface p-1.5 shadow-[0_8px_24px_rgba(15,23,42,0.12)]"
+                          role="menu"
+                        >
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className="rounded-md border-0 bg-transparent px-2.5 py-2 text-left text-[0.875rem] text-slate-800 hover:bg-surface-hover"
+                            onClick={() => setOpenMenuId(null)}
+                          >
                             Edit
                           </button>
-                          <button type="button" role="menuitem" onClick={() => setOpenMenuId(null)}>
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className="rounded-md border-0 bg-transparent px-2.5 py-2 text-left text-[0.875rem] text-slate-800 hover:bg-surface-hover"
+                            onClick={() => setOpenMenuId(null)}
+                          >
                             Reset password
                           </button>
                           <button
                             type="button"
                             role="menuitem"
-                            className="users__menu-danger"
+                            className="rounded-md border-0 bg-transparent px-2.5 py-2 text-left text-[0.875rem] text-red-600 hover:bg-surface-hover"
                             onClick={() => setOpenMenuId(null)}
                           >
                             Deactivate
@@ -240,27 +291,27 @@ export function Users() {
       </div>
 
       {modalOpen ? (
-        <div className="users-modal" role="presentation">
+        <div className="fixed inset-0 z-40 grid place-items-center p-5" role="presentation">
           <button
             type="button"
-            className="users-modal__backdrop"
+            className="absolute inset-0 border-0 bg-slate-900/45"
             aria-label="Close add user dialog"
             onClick={closeModal}
           />
           <form
-            className="users-modal__dialog"
+            className="relative z-1 flex w-full max-w-[440px] flex-col gap-4 rounded-[14px] bg-white px-[22px] pt-[22px] pb-5 shadow-[0_20px_50px_rgba(15,23,42,0.22)]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="add-user-title"
             onSubmit={handleCreateUser}
           >
-            <div className="users-modal__header">
-              <h2 id="add-user-title" className="users-modal__title">
+            <div className="flex items-center justify-between gap-3">
+              <h2 id="add-user-title" className="m-0 text-[1.2rem] font-bold text-slate-800">
                 Add User
               </h2>
               <button
                 type="button"
-                className="users-modal__close"
+                className="grid size-8 place-items-center rounded-md border-0 bg-transparent text-ink-muted hover:bg-surface-hover hover:text-slate-800"
                 aria-label="Close"
                 onClick={closeModal}
               >
@@ -270,10 +321,13 @@ export function Users() {
               </button>
             </div>
 
-            <label className="users-modal__field">
-              <span className="users-modal__label">Display Name</span>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[0.7rem] font-bold tracking-[0.06em] text-ink-muted uppercase">
+                Display Name
+              </span>
               <input
                 type="text"
+                className={`${modalFieldClass} h-[42px] px-3`}
                 placeholder="Display name"
                 value={displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
@@ -282,10 +336,11 @@ export function Users() {
               />
             </label>
 
-            <label className="users-modal__field">
-              <span className="users-modal__label">Email</span>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[0.7rem] font-bold tracking-[0.06em] text-ink-muted uppercase">Email</span>
               <input
                 type="email"
+                className={`${modalFieldClass} h-[42px] px-3`}
                 placeholder="name@company.com"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -293,9 +348,10 @@ export function Users() {
               />
             </label>
 
-            <label className="users-modal__field">
-              <span className="users-modal__label">Role</span>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[0.7rem] font-bold tracking-[0.06em] text-ink-muted uppercase">Role</span>
               <select
+                className={`${modalFieldClass} ${selectChevron} h-[42px] px-3 pr-7`}
                 value={role}
                 onChange={(event) => setRole(event.target.value as UserRole)}
               >
@@ -305,11 +361,18 @@ export function Users() {
               </select>
             </label>
 
-            <div className="users-modal__actions">
-              <button type="button" className="users-modal__btn users-modal__btn--ghost" onClick={closeModal}>
+            <div className="mt-1 flex justify-end gap-2.5">
+              <button
+                type="button"
+                className="h-10 rounded-md border border-border bg-white px-4 text-[0.9rem] font-semibold text-slate-800 hover:bg-surface-hover"
+                onClick={closeModal}
+              >
                 Cancel
               </button>
-              <button type="submit" className="users-modal__btn users-modal__btn--primary">
+              <button
+                type="submit"
+                className="h-10 rounded-md border-0 bg-orange-500 px-4 text-[0.9rem] font-semibold text-white hover:bg-orange-600"
+              >
                 Create user
               </button>
             </div>
