@@ -10,7 +10,7 @@ const selectChevron =
 const cardClass = 'rounded-xl border border-border bg-surface shadow-soft'
 
 const fieldFocus =
-  'outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)]'
+  'outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)]'
 
 export function PostNew() {
   const navigate = useNavigate()
@@ -64,7 +64,7 @@ export function PostNew() {
         <div className="flex flex-col gap-2.5">
           <Link
             to="/posts"
-            className="inline-flex w-fit items-center gap-1 text-[0.9rem] font-semibold text-accent hover:text-accent-hover"
+            className="inline-flex w-fit items-center gap-1 text-[0.9rem] font-semibold text-brand hover:text-brand-hover"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
@@ -81,7 +81,7 @@ export function PostNew() {
             <h1 className="m-0 text-[1.75rem] font-bold tracking-tight text-ink max-sm:text-[1.4rem]">
               Add New Post
             </h1>
-            <span className="inline-flex h-7 items-center rounded-full bg-blue-50 px-3 text-[0.8rem] font-bold text-accent">
+            <span className="inline-flex h-7 items-center rounded-full bg-blue-50 px-3 text-[0.8rem] font-bold text-brand">
               {status}
             </span>
           </div>
@@ -143,7 +143,7 @@ export function PostNew() {
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
-                  className="h-8 rounded-md border border-orange-200 bg-orange-50 px-2.5 text-[0.825rem] font-semibold text-accent hover:bg-surface-hover"
+                  className="h-8 rounded-md border border-orange-200 bg-orange-50 px-2.5 text-[0.825rem] font-semibold text-brand hover:bg-surface-hover"
                 >
                   Add Media
                 </button>
@@ -252,7 +252,7 @@ export function PostNew() {
             </div>
             <button
               type="submit"
-              className="h-[42px] w-full rounded-md border-0 bg-accent text-[0.9rem] font-bold text-white hover:bg-accent-hover"
+              className="h-[42px] w-full rounded-md border-0 bg-brand text-[0.9rem] font-bold text-white hover:bg-brand-hover"
             >
               Publish Post &amp; Endpoint
             </button>
@@ -266,7 +266,7 @@ export function PostNew() {
                   <label className="inline-flex cursor-pointer items-center gap-2 text-[0.9rem] text-ink">
                     <input
                       type="checkbox"
-                      className="size-[15px] accent-accent"
+                      className="size-[15px] accent-brand"
                       checked={selectedCategories.includes(category)}
                       onChange={() => toggleCategory(category)}
                     />
@@ -277,7 +277,7 @@ export function PostNew() {
             </ul>
             <button
               type="button"
-              className="mt-3.5 border-0 bg-transparent p-0 text-left text-sm font-semibold text-accent hover:text-accent-hover"
+              className="mt-3.5 border-0 bg-transparent p-0 text-left text-sm font-semibold text-brand hover:text-brand-hover"
             >
               + Add New Category
             </button>
@@ -287,7 +287,7 @@ export function PostNew() {
             <h2 className="m-0 mb-3.5 text-base font-bold text-ink">Featured Image</h2>
             <button
               type="button"
-              className="flex min-h-[120px] w-full flex-col items-center justify-center gap-2 rounded-[10px] border-[1.5px] border-dashed border-slate-300 bg-surface-subtle text-sm font-medium text-ink-muted hover:border-accent hover:bg-blue-50 hover:text-ink"
+              className="flex min-h-[120px] w-full flex-col items-center justify-center gap-2 rounded-[10px] border-[1.5px] border-dashed border-slate-300 bg-surface-subtle text-sm font-medium text-ink-muted hover:border-brand hover:bg-blue-50 hover:text-ink"
               onClick={() => fileInputRef.current?.click()}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">

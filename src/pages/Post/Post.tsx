@@ -132,7 +132,7 @@ export function Post() {
           </h1>
           <Link
             to="/posts/new"
-            className="inline-flex h-9 items-center rounded-md border-0 bg-accent px-3.5 text-[0.9rem] font-semibold text-white hover:bg-accent-hover"
+            className="inline-flex h-9 items-center rounded-md border-0 bg-brand px-3.5 text-[0.9rem] font-semibold text-white hover:bg-brand-hover"
           >
             + Add New
           </Link>
@@ -158,7 +158,7 @@ export function Post() {
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
               aria-label="Search posts"
-              className="h-[38px] w-[min(280px,70vw)] rounded-md border border-border bg-surface py-0 pr-3 pl-9 text-[0.9rem] text-ink outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)] max-md:w-full"
+              className="h-[38px] w-[min(280px,70vw)] rounded-md border border-border bg-surface py-0 pr-3 pl-9 text-[0.9rem] text-ink outline-none focus:border-brand focus:shadow-[0_0_0_3px_rgba(11,95,255,0.15)] max-md:w-full"
             />
           </label>
           <button
@@ -180,7 +180,7 @@ export function Post() {
               type="button"
               className={`border-0 bg-transparent p-0 text-[0.9rem] font-medium ${
                 activeTab === tab.id
-                  ? 'font-bold text-accent'
+                  ? 'font-bold text-brand'
                   : 'text-ink-muted hover:text-ink'
               }`}
               onClick={() => {
@@ -238,7 +238,7 @@ export function Post() {
               <th className="w-[42px] border-b border-border px-3.5 py-3 text-left text-[0.7rem] font-bold tracking-wider whitespace-nowrap text-slate-400 uppercase">
                 <input
                   type="checkbox"
-                  className="size-[15px] accent-accent"
+                  className="size-[15px] accent-brand"
                   checked={allVisibleSelected}
                   onChange={toggleAllVisible}
                   aria-label="Select all posts"
@@ -277,7 +277,7 @@ export function Post() {
                   <td className="w-[42px] border-b border-border px-3.5 py-3.5 align-middle">
                     <input
                       type="checkbox"
-                      className="size-[15px] accent-accent"
+                      className="size-[15px] accent-brand"
                       checked={selected.includes(post.id)}
                       onChange={() => toggleOne(post.id)}
                       aria-label={`Select ${post.title}`}
@@ -287,7 +287,7 @@ export function Post() {
                     <div className="flex flex-col gap-1.5">
                       <button
                         type="button"
-                        className="border-0 bg-transparent p-0 text-left text-[0.95rem] font-semibold text-accent hover:text-accent-hover hover:underline"
+                        className="border-0 bg-transparent p-0 text-left text-[0.95rem] font-semibold text-brand hover:text-brand-hover hover:underline"
                       >
                         {post.title}
                       </button>
@@ -395,7 +395,7 @@ export function Post() {
               type="button"
               className={`h-[34px] min-w-[34px] rounded-md border px-0 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-45 ${
                 page === num
-                  ? 'border-accent bg-accent text-white'
+                  ? 'border-brand bg-brand text-white'
                   : 'border-border bg-surface text-ink hover:bg-surface-hover'
               }`}
               onClick={() => setPage(num)}

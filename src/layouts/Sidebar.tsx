@@ -21,7 +21,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
       }`}
     >
       <div className="flex h-header items-center gap-3 border-b border-border px-4">
-        <span className="grid size-8 place-items-center rounded-md bg-accent text-[0.95rem] font-bold text-white">
+        <span className="grid size-8 place-items-center rounded-md bg-brand text-[0.95rem] font-bold text-white">
           M
         </span>
         <div>
@@ -39,7 +39,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
             className={({ isActive }) =>
               `block rounded-md px-3 py-2.5 text-[0.925rem] transition-colors ${
                 isActive
-                  ? 'bg-[rgba(11,95,255,0.1)] font-semibold text-accent'
+                  ? 'bg-[rgba(11,95,255,0.1)] font-semibold text-brand'
                   : 'text-ink hover:bg-surface-hover'
               }`
             }
