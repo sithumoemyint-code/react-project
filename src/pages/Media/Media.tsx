@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
 import './Media.css'
 
 type MediaKind = 'image' | 'svg' | 'json' | 'pdf' | 'file'
@@ -166,7 +166,7 @@ export function Media() {
     captureFile(event.target.files?.[0])
   }
 
-  function handleDrop(event: DragEvent<HTMLDivElement>) {
+  function handleDrop(event: any) {
     event.preventDefault()
     setDragging(false)
     captureFile(event.dataTransfer.files?.[0])

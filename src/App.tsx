@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { ProtectedRoute } from './auth/ProtectedRoute'
 import { DashboardLayout } from './layouts/DashboardLayout'
-import { Content } from './pages/Content/Content'
+import { Post } from './pages/Post/Post'
 import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Login } from './pages/Login/Login'
 import { Media } from './pages/Media/Media'
@@ -19,7 +19,7 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="posts" element={<Content />} />
+              <Route path="posts" element={<Post />} />
               <Route path="posts/new" element={<PostNew />} />
               <Route path="media" element={<Media />} />
               <Route path="taxonomies" element={<Taxonomies />} />

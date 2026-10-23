@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import './Overview.css'
 
 const glanceStats = [
@@ -71,7 +71,7 @@ export function Dashboard() {
   const [draftTitle, setDraftTitle] = useState('')
   const [draftNote, setDraftNote] = useState('')
 
-  function handleSaveDraft(event: FormEvent) {
+  function handleSaveDraft(event: any) {
     event.preventDefault()
     setDraftTitle('')
     setDraftNote('')

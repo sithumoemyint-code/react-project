@@ -81,7 +81,7 @@ function statusClass(status: PostStatus) {
   return 'posts-badge--trash'
 }
 
-export function Content() {
+export function Post() {
   const [activeTab, setActiveTab] = useState<StatusTab>('all')
   const [searchInput, setSearchInput] = useState('')
   const [query, setQuery] = useState('')
@@ -193,7 +193,7 @@ export function Content() {
             <option value="promotions">Promotions</option>
           </select>
           <button type="button" className="posts__ghost-btn">
-            Filter
+            Filter 
           </button>
         </div>
         <p className="posts__count">{statusCounts.all} items</p>
