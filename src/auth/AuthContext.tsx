@@ -8,6 +8,7 @@ import {
 } from 'react'
 
 const SESSION_KEY = 'mytel-cms-session'
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7
 const DEMO_USERNAME = 'admin'
 const DEMO_PASSWORD = 'admin123'
 
@@ -24,9 +25,23 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+function getCookie(name: string): string | null {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = document.cookie.match(new RegExp(`(?:^|; )${escaped}=([^;]*)`))
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+function setCookie(name: string, value: string, maxAgeSeconds = SESSION_MAX_AGE_SECONDS) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`
+}
+
+function removeCookie(name: string) {
+  document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`
+}
+
 function readSession(): User | null {
   try {
-    const raw = localStorage.getItem(SESSION_KEY)
+    const raw = getCookie(SESSION_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as User
     if (!parsed?.username) return null
@@ -48,13 +63,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { ok: false as const, error: 'Invalid username or password.' }
     }
     const next: User = { username: trimmed }
-    localStorage.setItem(SESSION_KEY, JSON.stringify(next))
+    setCookie(SESSION_KEY, JSON.stringify(next))
     setUser(next)
     return { ok: true as const }
   }, [])
 
   const logout = useCallback(() => {
-    localStorage.removeItem(SESSION_KEY)
+    removeCookie(SESSION_KEY)
     setUser(null)
   }, [])
 
