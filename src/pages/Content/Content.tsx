@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Posts.css'
 
@@ -100,7 +100,7 @@ export function Content() {
   const allVisibleSelected =
     filtered.length > 0 && filtered.every((post) => selected.includes(post.id))
 
-  function handleSearch(event: FormEvent) {
+  function handleSearch(event: any) {
     event.preventDefault()
     setQuery(searchInput)
     setPage(1)
