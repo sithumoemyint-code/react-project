@@ -7,6 +7,7 @@ import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Login } from './pages/Login/Login'
 import { Media } from './pages/Media/Media'
 import { PostNew } from './pages/PostNew/PostNew'
+import { Activity } from './pages/Activity/Activity'
 import { Taxonomies } from './pages/Taxonomies/Taxonomies'
 import { Users } from './pages/Users/Users'
 
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="media" element={<Media />} />
               <Route path="taxonomies" element={<Taxonomies />} />
               <Route path="users" element={<Users />} />
+              <Route path="activity" element={<Activity />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

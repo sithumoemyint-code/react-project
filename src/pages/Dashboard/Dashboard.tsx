@@ -82,16 +82,6 @@ export function Dashboard() {
 
   return (
     <section className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1.5">
-        <p className="m-0 text-xs font-bold tracking-[0.08em] text-orange-500 uppercase">Dashboard</p>
-        <h1 className="m-0 text-[1.75rem] leading-tight font-bold tracking-tight text-slate-800">
-          Welcome to Mytel Developer CMS!
-        </h1>
-        <p className="m-0 max-w-[54ch] text-[0.95rem] leading-normal text-ink-muted">
-          Manage your APIs, content, and developer platform from one workspace.
-        </p>
-      </header>
-
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.35fr_1fr]">
         <article className={`${cardClass} xl:col-span-2`}>
           <h2 className="m-0 text-[1.05rem] font-bold text-slate-800">At a Glance</h2>

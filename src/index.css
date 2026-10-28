@@ -11,11 +11,13 @@
   --color-surface-hover: #eef0f3;
   --color-ink: #1a1d23;
   --color-ink-muted: #6b7280;
-  --color-brand: #0b5fff;
-  --color-brand-hover: #094fd6;
-  --color-danger: #c62828;
-  --color-danger-hover: #a61f1f;
-  --spacing-sidebar: 240px;
+  --color-brand: #f06a37;
+  --color-brand-hover: #e05520;
+  --color-brand-soft: #fff5f1;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --spacing-sidebar: 260px;
   --spacing-header: 56px;
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 }
@@ -115,7 +117,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #0b5fff;
+  --primary: #f06a37;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -133,14 +135,14 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #64748b;
+  --sidebar-primary: #f06a37;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fff5f1;
+  --sidebar-accent-foreground: #f06a37;
+  --sidebar-border: #eef0f3;
+  --sidebar-ring: #f06a37;
 }
 
 .dark {
