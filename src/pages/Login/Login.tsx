@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Button, Input } from '@/reusable'
+import { Button, Input, Typography } from '@/reusable'
 import { loginFunction } from './LoginUtils'
 import { Navigate } from 'react-router-dom';
 
@@ -43,16 +43,14 @@ export function Login() {
               placeholder="Enter password"
             />
 
-            {errors.root?.message ? (
-              <p className="m-0 text-xs text-destructive">{errors.root.message}</p>
+            {errors.root?.message ? ( 
+              <Typography className='text-xs text-destructive'>{errors.root.message}</Typography>
             ) : null}
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3 border-0 bg-transparent">
             <Button>Sign in</Button>
-            <p className="m-0 text-center text-[0.8rem] text-muted-foreground">
-              Demo: admin / admin123
-            </p>
+            <Typography className="text-center">Demo: admin / admin123</Typography>
           </CardFooter>
         </form>
       </Card>
