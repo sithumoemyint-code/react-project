@@ -2,15 +2,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { ProtectedRoute } from './auth/ProtectedRoute'
 import { DashboardLayout } from './layouts/DashboardLayout/DashboardLayout'
-import { Post } from './pages/Post/Post'
-import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Login } from './pages/Login/Login'
-import { Media } from './pages/Media/Media'
-import { PostNew } from './pages/PostNew/PostNew'
-import { Activity } from './pages/Activity/Activity'
-import { Taxonomies } from './pages/Taxonomies/Taxonomies'
-import { Users } from './pages/Users/Users'
-import Testing from './pages/Testing/Testing'
+import { appRoutes } from './routes/appRoutes'
 
 export default function App() {
   return (
@@ -20,16 +13,14 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="posts">
-                <Route index element={<Post />} />
-                <Route path="new" element={<PostNew />} />
-              </Route>
-              <Route path="media" element={<Media />} />
-              <Route path="taxonomies" element={<Taxonomies />} />
-              <Route path="users" element={<Users />} />
-              <Route path="activity" element={<Activity />} />
-              <Route path="testing" element={<Testing />} />
+              {appRoutes.map((route) => {
+                const Page = route.element
+                return route.routePath === '' ? (
+                  <Route key={route.path} index element={<Page />} />
+                ) : (
+                  <Route key={route.path} path={route.routePath} element={<Page />} />
+                )
+              })}
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
