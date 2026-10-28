@@ -25,6 +25,10 @@ type InputProps<T extends FieldValues> = {
   className?: string
   /** Extra classes for the native input element. */
   inputClassName?: string
+  /** Max characters allowed. Also sets the native `maxLength`. */
+  maxLength?: number
+  /** Show live character count under the input. Defaults to true when `maxLength` is set. */
+  showCount?: boolean
 }
 
 /**
@@ -75,48 +79,71 @@ export function Input<T extends FieldValues>({
   autoComplete,
   className,
   inputClassName,
+  maxLength,
+  showCount,
 }: InputProps<T>) {
   const inputId = id ?? String(name)
   const isPassword = type === 'password'
   const [showPassword, setShowPassword] = useState(false)
+  const shouldShowCount = showCount ?? maxLength != null
 
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
-        <div className={cn('flex flex-col gap-1.5', className)}>
-          <Label htmlFor={inputId}>{label}</Label>
-          <div className="relative">
-            <UiInput
-              {...field}
-              id={inputId}
-              type={isPassword && showPassword ? 'text' : type}
-              autoComplete={autoComplete}
-              placeholder={placeholder}
-              aria-invalid={fieldState.invalid || undefined}
-              className={cn('h-10', isPassword && 'pr-10', inputClassName)}
-            />
-            {isPassword ? (
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute top-1/2 right-2.5 grid size-6 -translate-y-1/2 place-items-center rounded-md text-slate-400 transition-colors hover:text-slate-700"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? (
-                  <HiOutlineEyeOff className="size-4" />
-                ) : (
-                  <HiOutlineEye className="size-4" />
-                )}
-              </button>
-            ) : null}
+      render={({ field, fieldState }) => {
+        const value = String(field.value ?? '')
+        const count = value.length
+
+        return (
+          <div className={cn('flex flex-col gap-1.5', className)}>
+            <Label htmlFor={inputId}>{label}</Label>
+            <div className="relative">
+              <UiInput
+                {...field}
+                id={inputId}
+                type={isPassword && showPassword ? 'text' : type}
+                autoComplete={autoComplete}
+                placeholder={placeholder}
+                maxLength={maxLength}
+                aria-invalid={fieldState.invalid || undefined}
+                className={cn('h-10', isPassword && 'pr-10', inputClassName)}
+              />
+              {isPassword ? (
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute top-1/2 right-2.5 grid size-6 -translate-y-1/2 place-items-center rounded-md text-slate-400 transition-colors hover:text-slate-700"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <HiOutlineEyeOff className="size-4" />
+                  ) : (
+                    <HiOutlineEye className="size-4" />
+                  )}
+                </button>
+              ) : null}
+            </div>
+            <div className="flex items-start justify-between gap-2">
+              {fieldState.error?.message ? (
+                <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+              ) : (
+                <span />
+              )}
+              {shouldShowCount ? (
+                <p
+                  className={cn(
+                    'm-0 ml-auto text-xs text-muted-foreground',
+                    maxLength != null && count >= maxLength && 'text-destructive',
+                  )}
+                >
+                  {maxLength != null ? `${count}/${maxLength}` : count}
+                </p>
+              ) : null}
+            </div>
           </div>
-          {fieldState.error?.message ? (
-            <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
-          ) : null}
-        </div>
-      )}
+        )
+      }}
     />
   )
 }

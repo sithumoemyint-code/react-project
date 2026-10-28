@@ -37,4 +37,9 @@ export  const pageMeta: Record<
     title: 'Activity Logs',
     description: 'Review recent workspace events and audit history.',
   },
+  '/testing': {
+    eyebrow: 'Testing Logs',
+    title: 'Tesing Logs',
+    description: 'Testing with shadcn and react hook form.',
+  },
 }

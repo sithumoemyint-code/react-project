@@ -7,6 +7,7 @@ import {
   HiOutlineUserGroup,
   HiOutlineViewGrid,
 } from 'react-icons/hi'
+import { RiTestTubeFill } from "react-icons/ri";
 
 export const menuItems: {
   to: string
@@ -20,4 +21,5 @@ export const menuItems: {
   { to: '/media', label: 'Media Library', icon: HiOutlinePhotograph },
   { to: '/users', label: 'Users', icon: HiOutlineUserGroup },
   { to: '/activity', label: 'Activity Logs', icon: HiOutlineClock },
+  { to: '/testing', label: 'Testing', icon: RiTestTubeFill },
 ]

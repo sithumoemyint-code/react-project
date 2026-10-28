@@ -4,6 +4,8 @@ import {
   CardHeader, 
 } from '@/components/ui/card'
 import { Typography } from '@/reusable' 
+import { Separator } from '@/components/ui/separator'
+
 
 const glanceStats = [
   {
@@ -74,36 +76,36 @@ export function Dashboard() {
           <CardHeader> 
             <Typography size={16} weight={600}>At a Glance</Typography>
           </CardHeader> 
+          <Separator />
           <CardContent>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0">
-              {glanceStats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className={`min-w-0 px-0 md:px-4 ${index > 0 ? 'md:border-l md:border-border' : ''} ${index === 0 ? 'md:pl-0' : ''} ${index === glanceStats.length - 1 ? 'md:pr-0' : ''}`}
-                >
-                  <p className="m-0 text-[0.8rem] leading-snug text-ink-muted">{stat.label}</p>
-                  <p
-                    className={`my-2 text-[1.75rem] leading-none font-bold tracking-tight ${
-                      stat.valueTone === 'healthy' ? 'text-[1.35rem] text-green-600' : 'text-slate-800'
-                    }`}
-                  >
-                    {stat.valueTone === 'healthy' ? (
-                      <span className="inline-flex items-center gap-2">
-                        <span className="size-2 shrink-0 rounded-full bg-green-600" aria-hidden="true" />
-                        {stat.value}
-                      </span>
-                    ) : (
-                      stat.value
-                    )}
-                  </p>
-                  <p
-                    className={`m-0 text-[0.8rem] leading-snug ${
-                      stat.metaTone === 'positive' ? 'font-semibold text-green-600' : 'text-ink-muted'
-                    }`}
-                  >
-                    {stat.meta}
-                  </p>
-                </div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {glanceStats.map((stat) => (
+                <Card key={stat.label} size="sm" className="min-w-0 shadow-none">
+                  <CardContent>
+                    <p className="m-0 text-[0.8rem] leading-snug text-ink-muted">{stat.label}</p>
+                    <p
+                      className={`my-2 text-[1.75rem] leading-none font-bold tracking-tight ${
+                        stat.valueTone === 'healthy' ? 'text-[1.35rem] text-green-600' : 'text-slate-800'
+                      }`}
+                    >
+                      {stat.valueTone === 'healthy' ? (
+                        <span className="inline-flex items-center gap-2">
+                          <span className="size-2 shrink-0 rounded-full bg-green-600" aria-hidden="true" />
+                          {stat.value}
+                        </span>
+                      ) : (
+                        stat.value
+                      )}
+                    </p>
+                    <p
+                      className={`m-0 text-[0.8rem] leading-snug ${
+                        stat.metaTone === 'positive' ? 'font-semibold text-green-600' : 'text-ink-muted'
+                      }`}
+                    >
+                      {stat.meta}
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </CardContent>

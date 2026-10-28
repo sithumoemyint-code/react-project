@@ -10,6 +10,7 @@ import { PostNew } from './pages/PostNew/PostNew'
 import { Activity } from './pages/Activity/Activity'
 import { Taxonomies } from './pages/Taxonomies/Taxonomies'
 import { Users } from './pages/Users/Users'
+import Testing from './pages/Testing/Testing'
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="taxonomies" element={<Taxonomies />} />
               <Route path="users" element={<Users />} />
               <Route path="activity" element={<Activity />} />
+              <Route path="testing" element={<Testing />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
