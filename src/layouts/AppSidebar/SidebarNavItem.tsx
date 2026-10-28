@@ -1,11 +1,11 @@
 import type { IconType } from 'react-icons'
-import { NavLink, useMatch } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
+  SidebarMenuItem, 
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
+import { useSidebarNavItem } from './AppSidebarUtils'
 
 export function SidebarNavItem({
   to,
@@ -17,10 +17,8 @@ export function SidebarNavItem({
   label: string
   icon: IconType
   end?: boolean
-}) {
-  const match = useMatch({ path: to, end: end ?? false })
-  const isActive = !!match
-  const { isMobile, setOpenMobile } = useSidebar()
+}) { 
+  const { isActive, isMobile, setOpenMobile } = useSidebarNavItem(to, end)
 
   return (
     <SidebarMenuItem>

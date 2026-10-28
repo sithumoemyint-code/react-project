@@ -1,8 +1,7 @@
 import { 
   HiOutlineLogout, 
 } from 'react-icons/hi'
-import {  useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthContext'
+
 import {
   Sidebar,
   SidebarContent,
@@ -10,22 +9,14 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu, 
-  useSidebar,
+  SidebarMenu,  
 } from '@/components/ui/sidebar'  
 import { SidebarNavItem } from './SidebarNavItem'
 import { menuItems } from './menuItems'
+import { useSidebarLogout } from './AppSidebarUtils'
  
 export function AppSidebar() {
-  const { logout } = useAuth()
-  const navigate = useNavigate()
-  const { isMobile, setOpenMobile } = useSidebar()
-
-  function handleLogout() {
-    logout()
-    if (isMobile) setOpenMobile(false)
-    navigate('/login', { replace: true })
-  }
+  const { handleLogout } = useSidebarLogout();
 
   return (
     <Sidebar collapsible="offcanvas" className="border-sidebar-border">
