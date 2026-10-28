@@ -42,7 +42,6 @@ export function Login() {
               autoComplete="current-password"
               placeholder="Enter password"
             />
-
             {errors.root?.message ? ( 
               <Typography className='text-xs text-destructive'>{errors.root.message}</Typography>
             ) : null}

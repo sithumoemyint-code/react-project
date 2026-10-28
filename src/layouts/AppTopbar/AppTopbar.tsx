@@ -1,6 +1,7 @@
 import { HiOutlineUser } from 'react-icons/hi' 
 import { SidebarTrigger } from '@/components/ui/sidebar'  
 import {usePageMeta} from './AppTopBarUtils'
+import { Typography } from '@/reusable'
  
 export function AppTopbar() {
   const meta = usePageMeta()
@@ -10,15 +11,8 @@ export function AppTopbar() {
       <div className="flex min-w-0 items-center gap-3">
         <SidebarTrigger className="md:hidden" />
         <div className="min-w-0">
-          <p className="m-0 text-[0.65rem] font-bold tracking-[0.08em] text-brand uppercase">
-            {meta.eyebrow}
-          </p>
-          <h1 className="m-0 truncate text-base leading-tight font-bold tracking-tight text-slate-900 md:text-lg">
-            {meta.title}
-          </h1>
-          <p className="mt-0.5 mb-0 hidden max-w-[54ch] truncate text-xs leading-none text-slate-500 sm:block">
-            {meta.description}
-          </p>
+          <Typography size={24} weight={600} fontFamily='poppins'>{meta.eyebrow}</Typography>
+          <Typography color='#7D7D7D' className="mt-0.5 mb-0 hidden max-w-[54ch] truncate leading-none sm:block">{meta.description}</Typography>
         </div>
       </div>
 
@@ -29,9 +23,7 @@ export function AppTopbar() {
         >
           <HiOutlineUser className="size-4" />
         </span>
-        <span className="hidden text-sm font-medium text-slate-800 sm:inline">
-          Kitto, Admin
-        </span>
+        <Typography weight={600}>Kitto, Admin</Typography>
       </div>
     </header>
   )

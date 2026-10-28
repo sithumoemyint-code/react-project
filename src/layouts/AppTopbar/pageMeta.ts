@@ -3,9 +3,9 @@ export  const pageMeta: Record<
   { eyebrow: string; title: string; description: string }
 > = {
   '/': {
-    eyebrow: 'Dashboard',
+    eyebrow: 'Posts',
     title: 'Welcome to Mytel Developer CMS!',
-    description: 'Manage your APIs, contents and developer platform from one workspace.',
+    description: 'Manage, edit, and organize all your website articles in one place',
   },
   '/posts': {
     eyebrow: 'Posts',

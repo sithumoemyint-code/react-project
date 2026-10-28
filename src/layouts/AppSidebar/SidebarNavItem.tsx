@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
 import { useSidebarNavItem } from './AppSidebarUtils'
+import { Typography } from '@/reusable'
 
 export function SidebarNavItem({
   to,
@@ -37,8 +38,20 @@ export function SidebarNavItem({
             'bg-brand-soft font-semibold text-brand hover:bg-brand-soft hover:text-brand',
         )}
       >
-        <Icon className={cn('size-[1.15rem] shrink-0', isActive ? 'text-brand' : 'text-slate-400')} />
-        <span>{label}</span>
+        <Icon 
+          className={cn(
+            '!size-6 shrink-0',
+            isActive ? 'text-brand' : 'text-slate-400',
+          )}
+        />
+        <Typography
+          className={cn(
+            'text-base',
+            isActive ? 'text-[#FF6003]' : 'text-[#7D7D7D]',
+          )}
+        >
+          {label}
+        </Typography> 
       </SidebarMenuButton>
     </SidebarMenuItem>
   )

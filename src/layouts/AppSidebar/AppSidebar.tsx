@@ -13,27 +13,23 @@ import {
 import { SidebarNavItem } from './SidebarNavItem'
 import { menuItems } from './menuItems'
 import { useSidebarLogout } from './AppSidebarUtils'
-import { Button } from '@/reusable'
+import { Button, Typography } from '@/reusable'
  
 export function AppSidebar() {
   const { handleLogout } = useSidebarLogout();
 
   return (
     <Sidebar collapsible="offcanvas" className="border-sidebar-border">
-      <SidebarHeader className="border-b border-slate-200 px-4 py-5.5">
+      <SidebarHeader className="border-b border-slate-200 px-4 py-4.5">
         <div className="flex items-center gap-3">
           <img
             src="/images/logo.webp"
             alt="Mytel CMS"
             className="size-10 shrink-0 rounded-xl object-contain"
           />
-          <div className="min-w-0">
-            <strong className="block truncate text-[1.05rem] leading-tight font-bold text-slate-900">
-              Mytel CMS
-            </strong>
-            <span className="mt-0.5 block truncate text-xs text-slate-400">
-              Developer Workspace
-            </span>
+          <div className="min-w-0"> 
+            <Typography className="leading-tight font-bold text-slate-900 text-lg">Mytel CMS</Typography>
+            <Typography className="mt-0.5 truncate text-xs text-[#7D7D7D]">Developer Workspace</Typography>
           </div>
         </div>
       </SidebarHeader>

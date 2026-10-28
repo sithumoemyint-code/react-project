@@ -1,4 +1,9 @@
-import { useState, type FormEvent } from 'react'
+import {
+  Card,
+  CardContent,
+  CardHeader, 
+} from '@/components/ui/card'
+import { Typography } from '@/reusable' 
 
 const glanceStats = [
   {
@@ -58,98 +63,51 @@ const activities = [
     time: '3 hours ago',
   },
 ]
-
-const quickLinks = [
-  { title: 'API Credentials', description: 'Manage API keys, tokens, and secrets' },
-  { title: 'Webhooks', description: 'Manage API keys, tokens, and secrets' },
-  { title: 'Error Logs', description: 'Manage API keys, tokens, and secrets' },
-  { title: 'Rate Limits', description: 'Manage API keys, tokens, and secrets' },
-]
-
-const cardClass = 'rounded-xl border border-border bg-surface p-5 shadow-soft'
-const fieldClass =
-  'w-full rounded-md border border-border bg-surface px-3 py-2.5 text-[0.925rem] text-ink outline-none transition focus:border-orange-500 focus:shadow-[0_0_0_3px_rgba(249,115,22,0.15)]'
-
+ 
+const cardClass = 'rounded-xl border border-border bg-surface p-5 shadow-soft' 
 export function Dashboard() {
-  const [draftTitle, setDraftTitle] = useState('')
-  const [draftNote, setDraftNote] = useState('')
-
-  function handleSaveDraft(event: FormEvent) {
-    event.preventDefault()
-    setDraftTitle('')
-    setDraftNote('')
-  }
 
   return (
     <section className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.35fr_1fr]">
-        <article className={`${cardClass} xl:col-span-2`}>
-          <h2 className="m-0 text-[1.05rem] font-bold text-slate-800">At a Glance</h2>
-          <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0">
-            {glanceStats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className={`min-w-0 px-0 md:px-4 ${index > 0 ? 'md:border-l md:border-border' : ''} ${index === 0 ? 'md:pl-0' : ''} ${index === glanceStats.length - 1 ? 'md:pr-0' : ''}`}
-              >
-                <p className="m-0 text-[0.8rem] leading-snug text-ink-muted">{stat.label}</p>
-                <p
-                  className={`my-2 text-[1.75rem] leading-none font-bold tracking-tight ${
-                    stat.valueTone === 'healthy' ? 'text-[1.35rem] text-green-600' : 'text-slate-800'
-                  }`}
+        <Card className="xl:col-span-2">
+          <CardHeader> 
+            <Typography size={16} weight={600}>At a Glance</Typography>
+          </CardHeader> 
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0">
+              {glanceStats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className={`min-w-0 px-0 md:px-4 ${index > 0 ? 'md:border-l md:border-border' : ''} ${index === 0 ? 'md:pl-0' : ''} ${index === glanceStats.length - 1 ? 'md:pr-0' : ''}`}
                 >
-                  {stat.valueTone === 'healthy' ? (
-                    <span className="inline-flex items-center gap-2">
-                      <span className="size-2 shrink-0 rounded-full bg-green-600" aria-hidden="true" />
-                      {stat.value}
-                    </span>
-                  ) : (
-                    stat.value
-                  )}
-                </p>
-                <p
-                  className={`m-0 text-[0.8rem] leading-snug ${
-                    stat.metaTone === 'positive' ? 'font-semibold text-green-600' : 'text-ink-muted'
-                  }`}
-                >
-                  {stat.meta}
-                </p>
-              </div>
-            ))}
-          </div>
-        </article>
-
-        <article className={cardClass}>
-          <h2 className="m-0 text-[1.05rem] font-bold text-slate-800">Quick Draft &amp; API Test</h2>
-          <p className="mt-1.5 mb-0 text-sm leading-snug text-ink-muted">
-            Capture an idea or test a request quickly.
-          </p>
-          <form className="mt-3.5 flex flex-col gap-3" onSubmit={handleSaveDraft}>
-            <input
-              type="text"
-              className={fieldClass}
-              placeholder="Draft title"
-              value={draftTitle}
-              onChange={(event) => setDraftTitle(event.target.value)}
-              aria-label="Draft title"
-            />
-            <textarea
-              className={`${fieldClass} min-h-[110px] resize-y leading-snug`}
-              placeholder="Write a quick note or API payload..."
-              value={draftNote}
-              onChange={(event) => setDraftNote(event.target.value)}
-              rows={5}
-              aria-label="Draft note"
-            />
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="h-[38px] rounded-md border-0 bg-orange-500 px-4 font-semibold text-white hover:bg-orange-600"
-              >
-                Save Draft
-              </button>
+                  <p className="m-0 text-[0.8rem] leading-snug text-ink-muted">{stat.label}</p>
+                  <p
+                    className={`my-2 text-[1.75rem] leading-none font-bold tracking-tight ${
+                      stat.valueTone === 'healthy' ? 'text-[1.35rem] text-green-600' : 'text-slate-800'
+                    }`}
+                  >
+                    {stat.valueTone === 'healthy' ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="size-2 shrink-0 rounded-full bg-green-600" aria-hidden="true" />
+                        {stat.value}
+                      </span>
+                    ) : (
+                      stat.value
+                    )}
+                  </p>
+                  <p
+                    className={`m-0 text-[0.8rem] leading-snug ${
+                      stat.metaTone === 'positive' ? 'font-semibold text-green-600' : 'text-ink-muted'
+                    }`}
+                  >
+                    {stat.meta}
+                  </p>
+                </div>
+              ))}
             </div>
-          </form>
-        </article>
+          </CardContent>
+        </Card> 
 
         <article className={cardClass}>
           <div className="flex items-baseline justify-between gap-3">
@@ -177,23 +135,7 @@ export function Dashboard() {
               </li>
             ))}
           </ul>
-        </article>
-
-        <article className={`${cardClass} xl:col-span-2`}>
-          <h2 className="m-0 text-[1.05rem] font-bold text-slate-800">Developer Quick Links</h2>
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {quickLinks.map((link) => (
-              <a
-                key={link.title}
-                href="#links"
-                className="rounded-lg border border-border bg-surface-subtle px-4 py-3 transition hover:border-orange-300 hover:bg-white"
-              >
-                <span className="block text-sm font-semibold text-slate-800">{link.title}</span>
-                <span className="mt-1 block text-xs text-ink-muted">{link.description}</span>
-              </a>
-            ))}
-          </div>
-        </article>
+        </article> 
       </div>
     </section>
   )

@@ -20,8 +20,10 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="posts" element={<Post />} />
-              <Route path="posts/new" element={<PostNew />} />
+              <Route path="posts">
+                <Route index element={<Post />} />
+                <Route path="new" element={<PostNew />} />
+              </Route>
               <Route path="media" element={<Media />} />
               <Route path="taxonomies" element={<Taxonomies />} />
               <Route path="users" element={<Users />} />

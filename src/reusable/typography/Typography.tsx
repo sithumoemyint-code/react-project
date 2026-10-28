@@ -13,7 +13,11 @@ type TypographyProps = {
   size?: number
   /** Text color. Defaults to `#000` via class. Pass a value to override. */
   color?: string
-  /** HTML tag to render. Defaults to `p`. */
+  /**
+   * HTML tag to render. Defaults to `span` (no browser margin).
+   * Display is `block` by default so stacked text stays on separate lines.
+   * Pass `className="inline"` when you need inline text.
+   */
   as?: ElementType
   className?: string
   style?: CSSProperties
@@ -50,14 +54,14 @@ export function Typography({
   weight,
   size,
   color,
-  as: Component = 'p',
+  as: Component = 'span',
   className,
   style,
 }: TypographyProps) {
   return (
     <Component
       className={cn(
-        'm-0 text-[14px] font-normal text-[#000]',
+        'block !m-0 text-[14px] font-normal text-[#000]',
         fontFamilyClass[fontFamily],
         className,
       )}
