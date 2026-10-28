@@ -3,7 +3,7 @@ import { useSidebar } from '@/components/ui/sidebar'
 import {  useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
 
-export function useSidebarNavItem(to: string, end?: boolean) {
+const useSidebarNavItem = (to: string, end?: boolean) => {
   const match = useMatch({ path: to, end: end ?? false })
   const isActive = !!match
   const { isMobile, setOpenMobile } = useSidebar()
@@ -11,7 +11,7 @@ export function useSidebarNavItem(to: string, end?: boolean) {
   return { isActive, isMobile, setOpenMobile }
 }
 
-export function useSidebarLogout() {
+const useSidebarLogout = () => {
   const { logout } = useAuth()
   const navigate = useNavigate()
   const { isMobile, setOpenMobile } = useSidebar()
@@ -24,3 +24,5 @@ export function useSidebarLogout() {
 
   return { handleLogout }
 }
+
+export { useSidebarLogout, useSidebarNavItem };

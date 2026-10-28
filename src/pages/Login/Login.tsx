@@ -1,7 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { useAuth } from '@/auth/AuthContext'
 import {
   Card,
   CardContent,
@@ -11,44 +7,12 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button, Input } from '@/reusable'
-import { loginSchema, type LoginFormValues } from './loginValidation'
-
-const DEMO_USERNAME = 'admin'
-const DEMO_PASSWORD = 'admin123'
-const AUTH_TOKEN = 'asjklj30-3223kjd-4j3-23kjasd'
+import { loginFunction } from './LoginUtils'
+import { Navigate } from 'react-router-dom';
 
 export function Login() {
-  const { isAuthenticated, login } = useAuth()
-  const navigate = useNavigate()
-  const {
-    control,
-    handleSubmit,
-    setError,
-    clearErrors,
-    formState: { errors },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: '',
-      password: '',
-    },
-  })
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />
-  }
-
-  function onSubmit(values: LoginFormValues) {
-    clearErrors('root')
-
-    if (values.username.trim() !== DEMO_USERNAME || values.password !== DEMO_PASSWORD) {
-      setError('root', { message: 'Invalid username or password.' })
-      return
-    }
-
-    login(AUTH_TOKEN)
-    navigate('/', { replace: true })
-  }
+  const { control, handleSubmit, onSubmit, errors, isAuthenticated } = loginFunction();
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
   return (
     <div className="flex min-h-full items-center justify-center bg-[linear-gradient(180deg,#f8f9fb_0%,#ffffff_55%,#f3f5f8_100%)] p-6">

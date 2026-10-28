@@ -13,4 +13,4 @@ const usePageMeta = ()  => {
   return match ? pageMeta[match] : pageMeta['/']
 }
 
-export default usePageMeta;
+export  {usePageMeta};
