@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { ProtectedRoute } from './auth/ProtectedRoute'
-import { DashboardLayout } from './layouts/DashboardLayout'
+import { DashboardLayout } from './layouts/DashboardLayout/DashboardLayout'
 import { Post } from './pages/Post/Post'
 import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Login } from './pages/Login/Login'

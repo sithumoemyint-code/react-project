@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { AppSidebar } from './AppSidebar'
-import { AppTopbar } from './AppTopbar'
+import { AppSidebar } from '../AppSidebar/AppSidebar'
+import { AppTopbar } from '../AppTopbar/AppTopbar'
 
 export function DashboardLayout() {
   return (
