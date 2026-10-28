@@ -1,7 +1,6 @@
 import { 
   HiOutlineLogout, 
 } from 'react-icons/hi'
-
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +13,7 @@ import {
 import { SidebarNavItem } from './SidebarNavItem'
 import { menuItems } from './menuItems'
 import { useSidebarLogout } from './AppSidebarUtils'
+import { Button } from '@/reusable'
  
 export function AppSidebar() {
   const { handleLogout } = useSidebarLogout();
@@ -50,15 +50,14 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
-        <button
+      <SidebarFooter className="p-4"> 
+        <Button 
           type="button"
           onClick={handleLogout}
           className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-danger-soft text-[0.95rem] font-semibold text-danger transition-colors hover:bg-red-100"
         >
-          <HiOutlineLogout className="size-5" />
-          Log out
-        </button>
+          <HiOutlineLogout className="size-5" /> Log out
+        </Button>
       </SidebarFooter>
     </Sidebar>
   )

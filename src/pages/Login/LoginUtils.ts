@@ -40,4 +40,4 @@ const loginFunction = () => {
   return {onSubmit , control, handleSubmit, errors, isAuthenticated  }
 }
 
-export {loginFunction}
+export { loginFunction }
