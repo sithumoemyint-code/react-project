@@ -1,7 +1,4 @@
-import { format } from 'date-fns'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import type { ReactNode } from 'react'
 import {
   Table,
   TableBody,
@@ -10,68 +7,94 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ConfirmAlertDialog } from '../confirm-alert-dialog/ConfirmAlertDialog'
+import { Button } from '../button/Button'
 import { Typography } from '../typography/Typography'
 
-export type DataTableRecord = {
+export type DataTableColumn<T> = {
+  /** Stable column key used for React keys. */
   id: string
-  name: string
-  email: string
-  role: string
-  skills: string[]
-  active: boolean
-  notes: string
-  avatarUrl?: string
-  startDate?: Date
-  endDate?: Date
-  createdAt: Date
+  /** Header label or custom node. */
+  header: ReactNode
+  /** Cell renderer for a single row. */
+  cell: (row: T) => ReactNode
+  /** Optional class for body cells. */
+  className?: string
+  /** Optional class for the header cell. */
+  headerClassName?: string
 }
 
-type DataTableProps = {
+type DataTableProps<T> = {
   /** Full list of records (pagination is applied internally). */
-  records: DataTableRecord[]
+  records: T[]
+  /** Column definitions (header + cell renderers). */
+  columns: DataTableColumn<T>[]
   /** Current 1-based page. */
   page: number
   /** Rows per page. */
   pageSize: number
   onPageChange: (page: number) => void
   onPageSizeChange: (pageSize: number) => void
-  /** Called after the user confirms delete in the alert dialog. */
-  onDelete: (id: string) => void
+  /** Resolve a stable row key. Defaults to `row.id` when present. */
+  getRowId?: (row: T, index: number) => string
+  /** Empty-state message. */
+  emptyMessage?: string
+  /** Show rows-per-page select and item count. Defaults to `true`. */
+  showRowsPerPage?: boolean
+  /** Show previous/next controls and page indicator. Defaults to `true`. */
+  showPagination?: boolean
 }
 
 /**
- * Paginated data table with avatar, badges, page size, and delete confirmation.
+ * Paginated data table driven by caller-defined columns.
  *
- * Renders submitted form records. Page size options are 5 / 10 / 20. Deleting a
- * row opens `ConfirmAlertDialog` before calling `onDelete`.
+ * Pass any record shape via generics and describe headers/cells with `columns`.
+ * Page size options are 5 / 10 / 20. Use `showRowsPerPage` and `showPagination`
+ * to toggle footer controls.
  *
  * @example
  * ```tsx
- * import { DataTable } from '@/reusable'
+ * import { DataTable, type DataTableColumn } from '@/reusable'
+ *
+ * const columns: DataTableColumn<User>[] = [
+ *   { id: 'name', header: 'Name', cell: (row) => row.name },
+ *   { id: 'email', header: 'Email', cell: (row) => row.email },
+ * ]
  *
  * <DataTable
- *   records={records}
+ *   records={users}
+ *   columns={columns}
  *   page={page}
  *   pageSize={pageSize}
  *   onPageChange={setPage}
  *   onPageSizeChange={handlePageSizeChange}
- *   onDelete={handleDelete}
  * />
  * ```
  */
-export function DataTable({
+export function DataTable<T>({
   records,
+  columns,
   page,
   pageSize,
   onPageChange,
   onPageSizeChange,
-  onDelete,
-}: DataTableProps) {
+  getRowId,
+  emptyMessage = 'No records yet.',
+  showRowsPerPage = true,
+  showPagination = true,
+}: DataTableProps<T>) {
   const totalPages = Math.max(1, Math.ceil(records.length / pageSize))
   const currentPage = Math.min(page, totalPages)
   const start = (currentPage - 1) * pageSize
-  const pageRecords = records.slice(start, start + pageSize)
+  const pageRecords = records.slice(start, start + pageSize) // pageRecords = records.slice(5, 10) → index ၅ ကနေ ၉ အထိ (row ၆–၁၀) ကိုသာ table မှာ ပြမယ်။
+  const showFooter = showRowsPerPage || showPagination
+
+  function resolveRowId(row: T, index: number) {
+    if (getRowId) return getRowId(row, index)
+    if (row && typeof row === 'object' && 'id' in row) {
+      return String((row as { id: string | number }).id)
+    }
+    return String(start + index)
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -79,77 +102,28 @@ export function DataTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Skills</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Date range</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              {columns.map((column) => (
+                <TableHead key={column.id} className={column.headerClassName}>
+                  {column.header}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {pageRecords.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
-                  No records yet. Submit the form to add one.
+                <TableCell colSpan={Math.max(columns.length, 1)} className="h-24 text-center">
+                  <Typography className="text-muted-foreground">{emptyMessage}</Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              pageRecords.map((record) => (
-                <TableRow key={record.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar size="sm">
-                        {record.avatarUrl ? (
-                          <AvatarImage src={record.avatarUrl} alt={record.name} />
-                        ) : null}
-                        <AvatarFallback>
-                          {record.name.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="min-w-0">
-                        <Typography className="truncate font-medium">{record.name}</Typography>
-                        <Typography className="truncate text-xs text-muted-foreground">
-                          {record.email}
-                        </Typography>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="capitalize">{record.role}</TableCell>
-                  <TableCell>
-                    <div className="flex max-w-[220px] flex-wrap gap-1">
-                      {record.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={record.active ? 'default' : 'outline'}>
-                      {record.active ? 'Active' : 'Inactive'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {record.startDate && record.endDate
-                      ? `${format(record.startDate, 'MMM d')} - ${format(record.endDate, 'MMM d, yyyy')}`
-                      : '—'}
-                  </TableCell>
-                  <TableCell>{format(record.createdAt, 'MMM d, yyyy HH:mm')}</TableCell>
-                  <TableCell className="text-right">
-                    <ConfirmAlertDialog
-                      title="Delete record?"
-                      description={`This will permanently remove ${record.name} from the table.`}
-                      confirmLabel="Delete"
-                      onConfirm={() => onDelete(record.id)}
-                      trigger={
-                        <Button type="button" variant="destructive" size="sm" className="h-8 w-auto">
-                          Delete
-                        </Button>
-                      }
-                    />
-                  </TableCell>
+              pageRecords.map((record, index) => (
+                <TableRow key={resolveRowId(record, index)}>
+                  {columns.map((column) => (
+                    <TableCell key={column.id} className={column.className}>
+                      {column.cell(record)}
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))
             )}
@@ -157,54 +131,64 @@ export function DataTable({
         </Table>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Rows per page</span>
-          <select
-            className="h-8 rounded-md border border-border bg-background px-2 text-sm text-foreground outline-none"
-            value={pageSize}
-            onChange={(event) => onPageSizeChange(Number(event.target.value))}
-            aria-label="Rows per page"
-          >
-            {[5, 10, 20].map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-          <span>
-            {records.length === 0
-              ? '0 items'
-              : `${start + 1}-${Math.min(start + pageSize, records.length)} of ${records.length}`}
-          </span>
-        </div>
+      {showFooter ? (
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {showRowsPerPage ? (
+            <div className="flex items-center gap-2">
+              <Typography className="inline text-sm text-muted-foreground">
+                Rows per page
+              </Typography>
+              <select
+                className="h-8 rounded-md border border-border bg-background px-2 text-sm text-foreground outline-none"
+                value={pageSize}
+                onChange={(event) => onPageSizeChange(Number(event.target.value))}
+                aria-label="Rows per page"
+              >
+                {[5, 10, 20].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+              <Typography className="inline text-sm text-muted-foreground">
+                {records.length === 0
+                  ? '0 items'
+                  : `${start + 1}-${Math.min(start + pageSize, records.length)} of ${records.length}`}
+              </Typography>
+            </div>
+          ) : (
+            <div />
+          )}
 
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 w-auto"
-            disabled={currentPage <= 1}
-            onClick={() => onPageChange(currentPage - 1)}
-          >
-            Previous
-          </Button>
-          <Typography className="text-sm text-muted-foreground">
-            Page {currentPage} / {totalPages}
-          </Typography>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-8 w-auto"
-            disabled={currentPage >= totalPages}
-            onClick={() => onPageChange(currentPage + 1)}
-          >
-            Next
-          </Button>
+          {showPagination ? (
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 w-auto"
+                disabled={currentPage <= 1}
+                onClick={() => onPageChange(currentPage - 1)}
+              >
+                Previous
+              </Button>
+              <Typography className="inline text-sm text-muted-foreground">
+                Page {currentPage} / {totalPages}
+              </Typography>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-8 w-auto"
+                disabled={currentPage >= totalPages}
+                onClick={() => onPageChange(currentPage + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          ) : null}
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }

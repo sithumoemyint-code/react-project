@@ -20,9 +20,11 @@ import {
   SwitchField,
   TextareaField,
   Typography,
-} from '@/reusable' 
+} from '@/reusable'
 import { departmentOptions, roleOptions, skillOptions } from '../data/dummyData'
+import { getTestingColumns } from '../components/TestingData'
 import { useTestingPage } from '../hooks/TestingUtils'
+
 
 export default function Testing() {
   const {
@@ -40,6 +42,7 @@ export default function Testing() {
 
   const { control } = form
   const avatarUrl = form.watch('avatarUrl')
+  const columns = getTestingColumns(handleDelete)
 
   return (
     <section className="flex flex-col gap-6">
@@ -169,11 +172,12 @@ export default function Testing() {
         <CardContent className="pt-4">
           <DataTable
             records={records}
+            columns={columns}
             page={page}
             pageSize={pageSize}
             onPageChange={setPage}
             onPageSizeChange={handlePageSizeChange}
-            onDelete={handleDelete}
+            emptyMessage="No records yet. Submit the form to add one."
           />
         </CardContent>
       </Card>

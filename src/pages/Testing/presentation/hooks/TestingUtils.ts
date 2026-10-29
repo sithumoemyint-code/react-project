@@ -3,9 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import type { DateRange } from 'react-day-picker'
 import { toast } from 'sonner'
-import type { DataTableRecord } from '@/reusable/data-table/DataTable'
 import { z } from 'zod'
 import { testingFormSchema } from '../schema/testingFormSchema'
+import type { TestingRecord } from '../types/testingRecord'
 
 export type TestingFormValues = z.infer<typeof testingFormSchema>
 
@@ -27,7 +27,7 @@ function createId() {
 }
 
 export function useTestingPage() {
-  const [records, setRecords] = useState<DataTableRecord[]>([])
+  const [records, setRecords] = useState<TestingRecord[]>([])
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const [submitting, setSubmitting] = useState(false)
@@ -48,7 +48,7 @@ export function useTestingPage() {
     await new Promise((resolve) => setTimeout(resolve, 800))
 
     const dateRange = values.dateRange as DateRange
-    const nextRecord: DataTableRecord = {
+    const nextRecord: TestingRecord = {
       id: createId(),
       name: values.name,
       email: values.email,
