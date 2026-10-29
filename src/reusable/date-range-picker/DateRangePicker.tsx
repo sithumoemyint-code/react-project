@@ -7,6 +7,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type DateRangePickerProps<T extends FieldValues> = {
   /** `react-hook-form` control from `useForm()`. */
@@ -92,7 +93,9 @@ export function DateRangePicker<T extends FieldValues>({
               </PopoverContent>
             </Popover>
             {fieldState.error?.message ? (
-              <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+              <Typography className="text-xs text-destructive">
+                {fieldState.error.message}
+              </Typography>
             ) : null}
           </div>
         )

@@ -2,6 +2,7 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type Option = { value: string; label: string }
 
@@ -83,7 +84,9 @@ export function MultiSelect<T extends FieldValues>({
               })}
             </div>
             {fieldState.error?.message ? (
-              <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+              <Typography className="text-xs text-destructive">
+                {fieldState.error.message}
+              </Typography>
             ) : null}
           </div>
         )

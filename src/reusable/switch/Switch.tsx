@@ -2,6 +2,7 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type SwitchFieldProps<T extends FieldValues> = {
   /** `react-hook-form` control from `useForm()`. */
@@ -55,12 +56,16 @@ export function SwitchField<T extends FieldValues>({
             <div className="min-w-0">
               <Label htmlFor={String(name)}>{label}</Label>
               {description ? (
-                <p className="m-0 text-xs text-muted-foreground">{description}</p>
+                <Typography className="text-xs text-muted-foreground">
+                  {description}
+                </Typography>
               ) : null}
             </div>
           </div>
           {fieldState.error?.message ? (
-            <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+            <Typography className="text-xs text-destructive">
+              {fieldState.error.message}
+            </Typography>
           ) : null}
         </div>
       )}

@@ -2,6 +2,7 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type Option = { value: string; label: string }
 
@@ -68,7 +69,9 @@ export function RadioGroupField<T extends FieldValues>({
             ))}
           </RadioGroup>
           {fieldState.error?.message ? (
-            <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+            <Typography className="text-xs text-destructive">
+              {fieldState.error.message}
+            </Typography>
           ) : null}
         </div>
       )}

@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type Option = { value: string; label: string }
 
@@ -82,7 +83,9 @@ export function SelectField<T extends FieldValues>({
             </SelectContent>
           </Select>
           {fieldState.error?.message ? (
-            <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+            <Typography className="text-xs text-destructive">
+              {fieldState.error.message}
+            </Typography>
           ) : null}
         </div>
       )}

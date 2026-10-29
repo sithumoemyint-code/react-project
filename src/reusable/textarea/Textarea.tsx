@@ -2,6 +2,7 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Label } from '@/components/ui/label'
 import { Textarea as UiTextarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
+import { Typography } from '../typography/Typography'
 
 type TextareaProps<T extends FieldValues> = {
   /** `react-hook-form` control from `useForm()`. */
@@ -62,7 +63,9 @@ export function TextareaField<T extends FieldValues>({
             aria-invalid={fieldState.invalid || undefined}
           />
           {fieldState.error?.message ? (
-            <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+            <Typography className="text-xs text-destructive">
+              {fieldState.error.message}
+            </Typography>
           ) : null}
         </div>
       )}

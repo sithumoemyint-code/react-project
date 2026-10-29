@@ -131,9 +131,9 @@ export default function Testing() {
                     className="size-16 rounded-md object-cover ring-1 ring-border"
                   />
                 ) : (
-                  <div className="bg-muted text-muted-foreground grid size-16 place-items-center rounded-md text-[0.65rem] ring-1 ring-border">
+                  <Typography className="bg-muted text-muted-foreground grid size-16 place-items-center rounded-md text-[0.65rem] ring-1 ring-border">
                     Preview
-                  </div>
+                  </Typography>
                 )}
                 <FileUploadDialog onUploaded={handleAvatarUploaded} />
               </div>
