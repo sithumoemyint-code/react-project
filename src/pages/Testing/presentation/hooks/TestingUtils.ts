@@ -5,7 +5,7 @@ import type { DateRange } from 'react-day-picker'
 import { toast } from 'sonner'
 import type { DataTableRecord } from '@/reusable/data-table/DataTable'
 import { z } from 'zod'
-import { testingFormSchema } from './testingFormSchema'
+import { testingFormSchema } from '../schema/testingFormSchema'
 
 export type TestingFormValues = z.infer<typeof testingFormSchema>
 

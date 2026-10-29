@@ -21,8 +21,8 @@ import {
   TextareaField,
   Typography,
 } from '@/reusable' 
-import { departmentOptions, roleOptions, skillOptions } from './dummyData'
-import { useTestingPage } from './TestingUtils'
+import { departmentOptions, roleOptions, skillOptions } from '../data/dummyData'
+import { useTestingPage } from '../hooks/TestingUtils'
 
 export default function Testing() {
   const {

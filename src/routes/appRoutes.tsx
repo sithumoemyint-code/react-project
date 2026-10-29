@@ -15,7 +15,7 @@ import { Media } from '@/pages/Media/Media'
 import { Post } from '@/pages/Post/Post'
 import { PostNew } from '@/pages/PostNew/PostNew'
 import { Taxonomies } from '@/pages/Taxonomies/Taxonomies'
-import Testing from '@/pages/Testing/Testing'
+import Testing from '@/pages/Testing/presentation/pages/Testing'
 import { Users } from '@/pages/Users/Users'
 
 export type PageMeta = {
