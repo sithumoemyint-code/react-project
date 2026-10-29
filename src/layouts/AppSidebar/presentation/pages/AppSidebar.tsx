@@ -11,8 +11,8 @@ import {
   SidebarMenu,  
 } from '@/components/ui/sidebar'  
 import { SidebarNavItem } from './SidebarNavItem'
-import { menuItems } from './menuItems'
-import { useSidebarLogout } from './AppSidebarUtils'
+import { menuItems } from '../datas/menuItems'
+import { useSidebarLogout } from '../hooks/AppSidebarUtils'
 import { Button, Typography } from '@/reusable'
  
 export function AppSidebar() {

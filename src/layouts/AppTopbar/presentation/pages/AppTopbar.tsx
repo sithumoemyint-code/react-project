@@ -1,6 +1,6 @@
 import { HiOutlineUser } from 'react-icons/hi' 
 import { SidebarTrigger } from '@/components/ui/sidebar'  
-import {usePageMeta} from './AppTopBarUtils'
+import {usePageMeta} from '../hooks/AppTopBarUtils'
 import { Typography } from '@/reusable'
  
 export function AppTopbar() {

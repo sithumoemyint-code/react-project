@@ -1,7 +1,7 @@
 import { useMatch } from 'react-router-dom'
 import { useSidebar } from '@/components/ui/sidebar'
 import {  useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../../../auth/AuthContext'
 
 const useSidebarNavItem = (to: string, end?: boolean) => {
   const match = useMatch({ path: to, end: end ?? false })

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom' 
-import { pageMeta } from './pageMeta'
+import { pageMeta } from '../data/pageMeta'
 
 const usePageMeta = ()  => {
   const { pathname } = useLocation()

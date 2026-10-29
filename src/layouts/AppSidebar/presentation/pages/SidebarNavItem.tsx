@@ -5,7 +5,7 @@ import {
   SidebarMenuItem, 
 } from '@/components/ui/sidebar'
 import { cn } from '@/lib/utils'
-import { useSidebarNavItem } from './AppSidebarUtils'
+import { useSidebarNavItem } from '../hooks/AppSidebarUtils'
 import { Typography } from '@/reusable'
 
 export function SidebarNavItem({
