@@ -4,6 +4,8 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Input as UiInput } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import { Button } from '../button/Button'
+import { Typography } from '../typography/Typography'
 
 type InputProps<T extends FieldValues> = {
   /** `react-hook-form` control from `useForm()`. */
@@ -110,10 +112,12 @@ export function Input<T extends FieldValues>({
                 className={cn('h-10', isPassword && 'pr-10', inputClassName)}
               />
               {isPassword ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="icon-sm"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute top-1/2 right-2.5 grid size-6 -translate-y-1/2 place-items-center rounded-md text-slate-400 transition-colors hover:text-slate-700"
+                  className="absolute top-1/2 right-2.5 h-6 w-6 -translate-y-1/2 text-slate-400 hover:bg-transparent hover:text-slate-700"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
@@ -121,24 +125,26 @@ export function Input<T extends FieldValues>({
                   ) : (
                     <HiOutlineEye className="size-4" />
                   )}
-                </button>
+                </Button>
               ) : null}
             </div>
             <div className="flex items-start justify-between gap-2">
               {fieldState.error?.message ? (
-                <p className="m-0 text-xs text-destructive">{fieldState.error.message}</p>
+                <Typography className="text-xs text-destructive">
+                  {fieldState.error.message}
+                </Typography>
               ) : (
                 <span />
               )}
               {shouldShowCount ? (
-                <p
+                <Typography
                   className={cn(
-                    'm-0 ml-auto text-xs text-muted-foreground',
+                    'ml-auto text-xs text-muted-foreground',
                     maxLength != null && count >= maxLength && 'text-destructive',
                   )}
                 >
                   {maxLength != null ? `${count}/${maxLength}` : count}
-                </p>
+                </Typography>
               ) : null}
             </div>
           </div>
