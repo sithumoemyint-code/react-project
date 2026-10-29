@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button, Input, Typography } from '@/reusable'
-import { loginFunction } from './LoginUtils'
+import { loginFunction } from '../hooks/LoginUtils'
 import { Navigate } from 'react-router-dom';
 
 export function Login() {

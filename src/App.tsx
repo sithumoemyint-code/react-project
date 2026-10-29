@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { ProtectedRoute } from './auth/ProtectedRoute'
 import { DashboardLayout } from './layouts/DashboardLayout/DashboardLayout'
-import { Login } from './pages/Login/Login'
+import { Login } from './pages/Login/presentation/pages/Login'
 import { appRoutes } from './routes/appRoutes'
 
 export default function App() {
