@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
 import type { IconType } from 'react-icons'
 import {
   HiOutlineClock,
@@ -9,14 +9,27 @@ import {
   HiOutlineViewGrid,
 } from 'react-icons/hi'
 import { RiTestTubeFill } from 'react-icons/ri'
-import { Activity } from '@/pages/Activity/Activity'
-import { Dashboard } from '@/pages/Dashboard/Dashboard'
-import { Media } from '@/pages/Media/Media'
-import { Post } from '@/pages/Post/Post'
-import { PostNew } from '@/pages/PostNew/PostNew'
-import { Taxonomies } from '@/pages/Taxonomies/Taxonomies'
-import Testing from '@/pages/Testing/presentation/pages/Testing'
-import { Users } from '@/pages/Users/Users'
+
+const Activity = lazy(() =>
+  import('@/pages/Activity/Activity').then((module) => ({ default: module.Activity })),
+)
+const Dashboard = lazy(() =>
+  import('@/pages/Dashboard/Dashboard').then((module) => ({ default: module.Dashboard })),
+)
+const Media = lazy(() =>
+  import('@/pages/Media/Media').then((module) => ({ default: module.Media })),
+)
+const Post = lazy(() => import('@/pages/Post/Post').then((module) => ({ default: module.Post })))
+const PostNew = lazy(() =>
+  import('@/pages/PostNew/PostNew').then((module) => ({ default: module.PostNew })),
+)
+const Taxonomies = lazy(() =>
+  import('@/pages/Taxonomies/Taxonomies').then((module) => ({ default: module.Taxonomies })),
+)
+const Testing = lazy(() => import('@/pages/Testing/presentation/pages/Testing'))
+const Users = lazy(() =>
+  import('@/pages/Users/Users').then((module) => ({ default: module.Users })),
+)
 
 export type PageMeta = {
   eyebrow: string
