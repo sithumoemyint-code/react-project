@@ -20,7 +20,7 @@ import StarterKit from '@tiptap/starter-kit'
 export function buildExtensions(placeholderText: string) {
   return [
     StarterKit.configure({
-      heading: { levels: [2, 3] },
+      heading: { levels: [1, 2, 3, 4, 5] },
       link: false,
     }),
     UnderlineExtension,

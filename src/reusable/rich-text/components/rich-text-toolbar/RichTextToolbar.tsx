@@ -7,8 +7,6 @@ import {
   Bold,
   Code,
   CodeXml,
-  Heading2,
-  Heading3,
   Highlighter,
   ImageIcon,
   Italic,
@@ -17,6 +15,7 @@ import {
   ListOrdered,
   ListTodo,
   Minus,
+  Palette,
   Quote,
   Redo2,
   Strikethrough,
@@ -28,19 +27,51 @@ import {
   Unlink,
 } from 'lucide-react'
 import { useEditorState, type Editor } from '@tiptap/react'
+import { toast } from 'sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { HIGHLIGHT_COLORS, TEXT_COLORS } from '../types/constants'
-import { ToolbarButton } from './ToolbarButton'
-import { ToolbarDivider } from './ToolbarDivider'
-import { UrlDialog } from './UrlDialog'
+import { HIGHLIGHT_COLORS, TEXT_COLORS } from '../../types/constants'
+import { ToolbarButton } from '../button/ToolbarButton'
+import { ToolbarColorDropdown } from '../dropdown/ToolbarColorDropdown'
+import { ToolbarDivider } from '../divider/ToolbarDivider'
+import { ToolbarHeadingDropdown } from '../dropdown/ToolbarHeadingDropdown'
+import { UrlDialog } from '../../dialogs/UrlDialog'
 
 type RichTextToolbarProps = {
   editor: Editor
 }
 
+function hasTextSelection(editor: Editor) {
+  const { empty, from, to } = editor.state.selection
+  return !empty && from !== to
+}
+
+function requireTextSelection(editor: Editor) {
+  if (hasTextSelection(editor)) return true
+  toast.error('Select text in the editor first', {
+    description: 'Highlight the text you want to link or unlink, then try again.',
+  })
+  return false
+}
+
 export function RichTextToolbar({ editor }: RichTextToolbarProps) {
   const [linkOpen, setLinkOpen] = useState(false)
   const [imageOpen, setImageOpen] = useState(false)
+
+  function handleInsertLinkClick() {
+    if (!requireTextSelection(editor)) return
+    setLinkOpen(true)
+  }
+
+  function handleRemoveLinkClick() {
+    if (!requireTextSelection(editor)) return
+    if (!editor.isActive('link')) {
+      toast.error('No link on selected text', {
+        description: 'Select text that already has a link to remove it.',
+      })
+      return
+    }
+    editor.chain().focus().extendMarkRange('link').unsetLink().run()
+  }
 
   const state = useEditorState({
     editor,
@@ -50,8 +81,9 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
       isUnderline: currentEditor.isActive('underline'),
       isStrike: currentEditor.isActive('strike'),
       isCode: currentEditor.isActive('code'),
-      isH2: currentEditor.isActive('heading', { level: 2 }),
-      isH3: currentEditor.isActive('heading', { level: 3 }),
+      headingLevel: [1, 2, 3, 4, 5].find((level) =>
+        currentEditor.isActive('heading', { level }),
+      ) ?? 0,
       isBulletList: currentEditor.isActive('bulletList'),
       isOrderedList: currentEditor.isActive('orderedList'),
       isTaskList: currentEditor.isActive('taskList'),
@@ -67,6 +99,8 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
       canUndo: currentEditor.can().undo(),
       canRedo: currentEditor.can().redo(),
       linkHref: (currentEditor.getAttributes('link').href as string | undefined) ?? '',
+      textColor: (currentEditor.getAttributes('textStyle').color as string | undefined) ?? '',
+      hasHighlight: currentEditor.isActive('highlight'),
     }),
   })
 
@@ -143,60 +177,32 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
 
           <ToolbarDivider />
 
-          {TEXT_COLORS.map((color) => (
-            <ToolbarButton
-              key={`text-${color.label}`}
-              label={`Text color ${color.label}`}
-              onClick={() => {
-                if (!color.value) {
-                  editor.chain().focus().unsetColor().run()
-                  return
-                }
-                editor.chain().focus().setColor(color.value).run()
-              }}
-            >
-              <span
-                className="size-3.5 rounded-full ring-1 ring-border"
-                style={{ backgroundColor: color.value || 'currentColor' }}
+          <ToolbarColorDropdown
+            editor={editor}
+            label="Text color"
+            colors={TEXT_COLORS}
+            variant="text"
+            active={Boolean(state.textColor)}
+            icon={
+              <Palette
+                className="size-4"
+                style={state.textColor ? { color: state.textColor } : undefined}
               />
-            </ToolbarButton>
-          ))}
+            }
+          />
 
-          {HIGHLIGHT_COLORS.map((color) => (
-            <ToolbarButton
-              key={`highlight-${color.label}`}
-              label={`Highlight ${color.label}`}
-              onClick={() => {
-                if (!color.value) {
-                  editor.chain().focus().unsetHighlight().run()
-                  return
-                }
-                editor.chain().focus().toggleHighlight({ color: color.value }).run()
-              }}
-            >
-              <Highlighter
-                className={color.value ? 'text-foreground' : undefined}
-                style={color.value ? { color: color.value } : undefined}
-              />
-            </ToolbarButton>
-          ))}
+          <ToolbarColorDropdown
+            editor={editor}
+            label="Highlight"
+            colors={HIGHLIGHT_COLORS}
+            variant="highlight"
+            active={state.hasHighlight}
+            icon={<Highlighter className="size-4" />}
+          />
 
           <ToolbarDivider />
 
-          <ToolbarButton
-            label="Heading 2"
-            pressed={state.isH2}
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          >
-            <Heading2 />
-          </ToolbarButton>
-          <ToolbarButton
-            label="Heading 3"
-            pressed={state.isH3}
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          >
-            <Heading3 />
-          </ToolbarButton>
+          <ToolbarHeadingDropdown editor={editor} activeLevel={state.headingLevel} />
           <ToolbarButton
             label="Bullet list"
             pressed={state.isBulletList}
@@ -275,15 +281,11 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
           <ToolbarButton
             label="Insert link"
             pressed={state.isLink}
-            onClick={() => setLinkOpen(true)}
+            onClick={handleInsertLinkClick}
           >
             <Link2 />
           </ToolbarButton>
-          <ToolbarButton
-            label="Remove link"
-            disabled={!state.isLink}
-            onClick={() => editor.chain().focus().unsetLink().run()}
-          >
+          <ToolbarButton label="Remove link" onClick={handleRemoveLinkClick}>
             <Unlink />
           </ToolbarButton>
           <ToolbarButton label="Insert image" onClick={() => setImageOpen(true)}>
@@ -310,6 +312,10 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
         initialValue={state.linkHref || 'https://'}
         confirmLabel="Apply link"
         onConfirm={(url) => {
+          if (!hasTextSelection(editor)) {
+            toast.error('Select text in the editor first')
+            return
+          }
           const trimmed = url.trim()
           if (!trimmed) {
             editor.chain().focus().extendMarkRange('link').unsetLink().run()

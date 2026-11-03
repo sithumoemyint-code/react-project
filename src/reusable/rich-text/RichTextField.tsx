@@ -2,7 +2,7 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { Typography } from '../typography/Typography'
-import { RichTextEditor } from './components/RichTextEditor'
+import { RichTextEditor } from './components/rich-text-editor/RichTextEditor'
 
 type RichTextFieldProps<T extends FieldValues> = {
   /** `react-hook-form` control from `useForm()`. */

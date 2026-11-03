@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { Label } from '@/components/ui/label'
+import { useEffect, useState } from 'react' 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -28,7 +27,7 @@ export function UrlDialog({
   onOpenChange,
   title,
   description,
-  fieldLabel,
+  fieldLabel: _fieldLabel,
   placeholder,
   initialValue,
   confirmLabel,
@@ -42,13 +41,17 @@ export function UrlDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-md rounded-xl border border-border bg-background p-6 text-foreground shadow-lg"
+      >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle className="font-bold">{title}</DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
+            {description}
+          </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-1.5 py-2">
-          <Label htmlFor="rich-text-url">{fieldLabel}</Label>
+        <div className="flex flex-col gap-1.5 py-2 mt-4"> 
           <Input
             id="rich-text-url"
             type="url"

@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { cn } from '@/lib/utils'
-import { buildExtensions } from '../types/buildExtensions'
-import { RichTextToolbar } from './RichTextToolbar'
+import { buildExtensions } from '../../types/buildExtensions'
+import { RichTextToolbar } from '../rich-text-toolbar/RichTextToolbar'
 
 export type RichTextEditorProps = {
   value: string
@@ -37,7 +37,9 @@ export function RichTextEditor({
             'tiptap prose prose-sm dark:prose-invert max-w-none min-h-[inherit] px-2.5 py-2 outline-none',
             'prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1',
             'prose-code:before:content-none prose-code:after:content-none',
-            'prose-pre:rounded-md prose-pre:bg-muted prose-pre:p-3',
+            'prose-pre:rounded-md prose-pre:border prose-pre:border-[#3c3c3c] prose-pre:!bg-[#1e1e1e] prose-pre:p-3 prose-pre:!text-[#d4d4d4]',
+            'prose-pre:prose-code:bg-transparent prose-pre:prose-code:!text-[#d4d4d4]',
+            '[&_.tiptap_pre]:font-mono [&_.tiptap_pre_code]:text-[#d4d4d4]',
             '[&_ul[data-type=taskList]]:list-none [&_ul[data-type=taskList]]:pl-0',
           ),
           'aria-invalid': invalid ? 'true' : 'false',
