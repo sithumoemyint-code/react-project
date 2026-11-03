@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { stripHtml } from '@/reusable'
 
 
 export const testingFormSchema = z.object({
@@ -9,6 +10,11 @@ export const testingFormSchema = z.object({
     .max(20, 'Middle name must be at most 20 characters'),
   email: z.email('Enter a valid email'),
   notes: z.string().min(5, 'Notes must be at least 5 characters'),
+  richDescription: z
+    .string()
+    .refine((value) => stripHtml(value).length >= 10, {
+      message: 'Description must be at least 10 characters',
+    }),
   role: z.enum(['admin', 'editor', 'viewer'], {
     error: 'Please select a role',
   }),

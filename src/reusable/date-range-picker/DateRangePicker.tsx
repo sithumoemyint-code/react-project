@@ -68,8 +68,11 @@ export function DateRangePicker<T extends FieldValues>({
                   <Button
                     type="button"
                     variant="outline"
+                    aria-invalid={fieldState.invalid || undefined}
                     className={cn(
                       'h-10 w-full justify-start text-left font-normal',
+                      'focus-visible:border-ring focus-visible:ring-0',
+                      'aria-invalid:border-destructive aria-invalid:ring-0 dark:aria-invalid:border-destructive/50',
                       !value?.from && 'text-muted-foreground',
                     )}
                   />

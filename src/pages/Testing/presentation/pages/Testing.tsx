@@ -18,6 +18,7 @@ import {
   RadioGroupField,
   SelectField,
   SwitchField,
+  RichTextField,
   TextareaField,
   Typography,
 } from '@/reusable'
@@ -50,7 +51,7 @@ export default function Testing() {
         <CardHeader>
           <CardTitle>Create test record</CardTitle>
           <CardDescription>
-            React Hook Form + Zod demo with shadcn inputs, upload dialog, and date range.
+            React Hook Form + Zod demo with shadcn inputs, rich text, upload dialog, and date range.
           </CardDescription>
         </CardHeader>
 
@@ -85,6 +86,16 @@ export default function Testing() {
                 name="notes"
                 label="Notes"
                 placeholder="Short description for this record"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <RichTextField
+                control={control}
+                name="richDescription"
+                label="Rich description"
+                placeholder="Long-form description with formatting…"
+                minHeight="10rem"
               />
             </div>
 

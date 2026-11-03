@@ -6,6 +6,7 @@ export type TestingRecord = {
   skills: string[]
   active: boolean
   notes: string
+  richDescription: string
   avatarUrl?: string
   startDate?: Date
   endDate?: Date
