@@ -8,7 +8,6 @@ import {
   Code,
   CodeXml,
   Highlighter,
-  ImageIcon,
   Italic,
   Link2,
   List,
@@ -34,6 +33,7 @@ import { ToolbarButton } from '../button/ToolbarButton'
 import { ToolbarColorDropdown } from '../dropdown/ToolbarColorDropdown'
 import { ToolbarDivider } from '../divider/ToolbarDivider'
 import { ToolbarHeadingDropdown } from '../dropdown/ToolbarHeadingDropdown'
+import { ToolbarImageDropdown } from '../dropdown/ToolbarImageDropdown'
 import { UrlDialog } from '../../dialogs/UrlDialog'
 
 type RichTextToolbarProps = {
@@ -288,9 +288,10 @@ export function RichTextToolbar({ editor }: RichTextToolbarProps) {
           <ToolbarButton label="Remove link" onClick={handleRemoveLinkClick}>
             <Unlink />
           </ToolbarButton>
-          <ToolbarButton label="Insert image" onClick={() => setImageOpen(true)}>
-            <ImageIcon />
-          </ToolbarButton>
+          <ToolbarImageDropdown
+            editor={editor}
+            onInsertFromUrl={() => setImageOpen(true)}
+          />
           <ToolbarButton
             label="Insert table"
             onClick={() =>
