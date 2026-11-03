@@ -3,6 +3,7 @@ import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import { cn } from '@/lib/utils'
 import { buildExtensions } from '../../types/buildExtensions'
 import { RichTextToolbar } from '../rich-text-toolbar/RichTextToolbar'
+import type { RichTextToolbarButtonShowItem } from '../../types/toolbarButtons'
 
 export type RichTextEditorProps = {
   value: string
@@ -12,6 +13,8 @@ export type RichTextEditorProps = {
   placeholder?: string
   invalid?: boolean
   minHeight?: string
+  /** Extra toolbar buttons; see `RichTextField` `buttonShow` JSDoc for full list and examples. */
+  buttonShow?: readonly RichTextToolbarButtonShowItem[]
 }
 
 export function RichTextEditor({
@@ -22,6 +25,7 @@ export function RichTextEditor({
   placeholder,
   invalid,
   minHeight = '8rem',
+  buttonShow,
 }: RichTextEditorProps) {
   const placeholderText = placeholder ?? 'Write something…'
   const extensions = useMemo(() => buildExtensions(placeholderText), [placeholderText])
@@ -57,9 +61,7 @@ export function RichTextEditor({
     if (!editor) return
     const current = editor.isEmpty ? '' : editor.getHTML()
     const next = value || ''
-    if (current !== next) {
-      editor.commands.setContent(next, { emitUpdate: false })
-    }
+    if (current !== next) editor.commands.setContent(next, { emitUpdate: false })
   }, [editor, value])
 
   const characterCount = useEditorState({
@@ -78,7 +80,6 @@ export function RichTextEditor({
       </div>
     )
   }
-
   return (
     <div
       className={cn(
@@ -89,7 +90,7 @@ export function RichTextEditor({
       )}
       style={{ minHeight }}
     >
-      <RichTextToolbar editor={editor} />
+      <RichTextToolbar editor={editor} buttonShow={buttonShow} />
       <div
         className="min-h-[inherit] flex-1 [&_.tiptap]:min-h-[inherit] [&_.tiptap_p.is-editor-empty:first-child::before]:text-muted-foreground [&_.tiptap_p.is-editor-empty:first-child::before]:float-left [&_.tiptap_p.is-editor-empty:first-child::before]:h-0 [&_.tiptap_p.is-editor-empty:first-child::before]:pointer-events-none"
         style={{ minHeight: `calc(${minHeight} - 2.5rem)` }}
